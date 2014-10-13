@@ -52,17 +52,15 @@ int get_rotation(char *filename) {
         fn_sign = ctypes.CFUNCTYPE( ctypes.c_int, ctypes.c_char_p )
 
         self.fn = fn_sign(exif.get_rotation)
-        self.last_img_name = ''
+        self.current_img_name = ''
 
     def _get_image(self, filename):
         if not isinstance(filename, str):
             return filename
-        # XXX/ simplify, too tired
-        if self.last_img_name == filename:
-            return self.last_img
-        self.last_img = Image.open( filename )
-        self.last_img_name = filename
-        return self.last_img
+        if self.current_img_name != filename:
+            self.current_img = Image.open( filename )
+            self.current_img_name = filename
+        return self.current_img
 
 
     def auto_rotate(self, filename):
@@ -151,14 +149,6 @@ class HTMLWriter(Writer):
             <html>
             <head>
             <title>Gallery</title>
-            <link href="main.css" rel="stylesheet" type="text/css" >
-            <script type="text/javascript" src="jquery.js" ></script>
-            <script type="text/javascript" src="./isotope.pkgd.min.js"></script>
-            <script type="text/javascript">
-$(function() {
-            $('#container').isotope({itemSelector: 'img',   isFitWidth: true});
-});
-            </script>
             </head>
             <body>
             <a href="package.zip">Download all files</a><br/>
