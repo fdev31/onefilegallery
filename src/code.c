@@ -14,6 +14,7 @@ int get_rotation(char *filename) {
     info = exif_data_get_entry(image, EXIF_TAG_ORIENTATION);
     exif_entry_get_value(info, message, 1024);
     if( strcmp(message, "Left-bottom") == 0) return 90;
+    if( strcmp(message, "Right-top") == 0) return 270; /* -90 */
     return 0;
 }
 

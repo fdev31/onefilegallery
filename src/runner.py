@@ -44,7 +44,7 @@ class ImageHandler:
         return img
 
     def get_rotation(self, filename):
-        return bool( self.fn(filename.encode('latin1')) )
+        return self.fn(filename.encode('latin1'))
 
     def minify(self, filename, size=None):
         img = self._get_image(filename)
