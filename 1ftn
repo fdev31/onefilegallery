@@ -289,13 +289,17 @@ if __name__ == "__main__":
                 out_fname = os.path.join(out.path, os.path.basename(fname))
                 open(out_fname, 'wb').write( open(fname, 'rb').read() )
 
-    print("\nZipping...")
-    import zipfile
-    z = zipfile.ZipFile( os.path.join(out.path, 'package.zip'), 'w')
-    for i, fname in enumerate(package_files or images.filenames):
-        print('\r' + progress_maker(i, len(images.filenames)), end='')
-        z.write( fname, os.path.basename(fname) )
-    z.close()
+    zfname = os.path.join(out.path, 'package.zip')
+
+    if not os.path.exists(zfname) or args.overwrite:
+        print("\nZipping...")
+        import zipfile
+        z = zipfile.ZipFile( zfname, 'w')
+        for i, fname in enumerate(package_files or images.filenames):
+            print('\r' + progress_maker(i, len(images.filenames)), end='')
+            z.write( fname, os.path.basename(fname) )
+        z.close()
+
     print("\n%d files processed."%len(images))
     open(os.path.join(out.path, os.path.pardir, 'index.html'), 'w').write(INDEX)
 
