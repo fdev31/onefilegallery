@@ -23,17 +23,15 @@ class ImageHandler:
         fn_sign = ctypes.CFUNCTYPE( ctypes.c_int, ctypes.c_char_p )
 
         self.fn = fn_sign(exif.get_rotation)
-        self.last_img_name = ''
+        self.current_img_name = ''
 
     def _get_image(self, filename):
         if not isinstance(filename, str):
             return filename
-        # XXX/ simplify, too tired
-        if self.last_img_name == filename:
-            return self.last_img
-        self.last_img = Image.open( filename )
-        self.last_img_name = filename
-        return self.last_img
+        if self.current_img_name != filename:
+            self.current_img = Image.open( filename )
+            self.current_img_name = filename
+        return self.current_img
 
 
     def auto_rotate(self, filename):
