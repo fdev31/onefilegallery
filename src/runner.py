@@ -120,14 +120,6 @@ class HTMLWriter(Writer):
             <html>
             <head>
             <title>Gallery</title>
-            <link href="main.css" rel="stylesheet" type="text/css" >
-            <script type="text/javascript" src="jquery.js" ></script>
-            <script type="text/javascript" src="./isotope.pkgd.min.js"></script>
-            <script type="text/javascript">
-$(function() {
-            $('#container').isotope({itemSelector: 'img',   isFitWidth: true});
-});
-            </script>
             </head>
             <body>
             <a href="package.zip">Download all files</a><br/>
