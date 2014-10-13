@@ -1,0 +1,22 @@
+body {
+    background: #333;
+}
+
+img {
+    border: none;
+    margin: 1ex;
+    border: solid 3px #555;
+    border-radius: 3px;
+}
+
+a {
+    color: #EEE;
+    font-weight: bold;
+}
+
+img:hover {
+    border: solid 3px #EEE;
+    transform: scale(1.2);
+    z-index: 3;
+    transition-duration: 300ms;
+}
