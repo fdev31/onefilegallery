@@ -7,6 +7,7 @@ Get [the file](./1ftn)
 - Python3
 - PIL / Imaging
 - libexif
+- gcc (will be removed, eventually)
 
 ### Also using
 
