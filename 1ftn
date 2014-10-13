@@ -174,10 +174,11 @@ INDEX = """
 <html>
     <head>
         <title>Gallery</title>
-<!--        <link href="main.css" rel="stylesheet" type="text/css" >-->
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
         <style>
 body {
     background: #333;
+    font-family: 'PT Sans', sans-serif;
 }
 
 img {
@@ -187,8 +188,10 @@ img {
     border-radius: 3px;
 }
 
-a {
+.bg_caption {
     color: #EEE;
+}
+a {
     font-weight: bold;
 }
 
@@ -201,6 +204,28 @@ img:hover {
 
 button.current {
     color: #E33;
+}
+
+#dl_ref {
+    float: right;
+}
+hr {
+    margin: .5ex auto 0 auto;
+    width: 50%;
+}
+
+button {
+    background: #e3e3e3;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 1px 1px #f6f6f6;
+    box-shadow: inset 0 0 1px 1px #f6f6f6;
+    color: #333;
+    font: bold 12px/1 "helvetica neue", helvetica, arial, sans-serif;
+    margin: 2px;
+/*    padding: 8px 0 9px;*/
+    text-align: center;
+    text-shadow: 0 1px 0 #fff;
 }
 
         </style>
@@ -259,10 +284,8 @@ $(function() {
         </script>
     </head>
     <body>
-        <a id="dl_ref" href="package.zip">Download all files</a>
-        <br />
-        <div id="pages">
-        </div>
+        <a id="dl_ref" class="bg_caption" href="package.zip">Download all files</a>
+        <div id="pages"><span class="bg_caption">Pages:</span></div>
         <hr />
         <div id="container">
         </div>
