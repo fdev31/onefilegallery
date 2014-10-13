@@ -8,6 +8,11 @@ Get [the file](./1ftn)
 - PIL / Imaging
 - libexif
 
+### Also using
+
+- Isotope
+- jQuery
+
 ## Example
 
     foo% ./1ftn ~/Images/last_weekend -o /tmp/mygallery
