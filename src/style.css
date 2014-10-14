@@ -8,7 +8,7 @@ img {
     border: solid 3px #555;
     border-radius: 3px;
 }
-img:hover {
+img.tn:hover {
     border: solid 3px #EEE;
     transform: scale(1.2);
     z-index: 3;
@@ -32,13 +32,49 @@ button {
 button.current {
     color: #E33;
 }
-#dl_ref {
+hr {
+    margin: .5ex auto 0 auto;
+    width: 50%;
+}
+#projector {
+    position: fixed;
+    top: 0;
+    width: 98%;
+    height: 98%;
+    background-color: #567;
+    margin: 0;
+    padding: 1ex;
+    z-index: 3;
+    transition-property: top;
+    transition-duration: 300ms;
+}
+#projected {
+    display: block;
+    margin-top: -3em;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 10px;
+    min-height: 10px;
+    max-width: 90%;
+    max-height: 90%;
+}
+#next_projected {
+    display: block;
+    width: 1px;
+    height: 1px;
+    margin-top: 1ex;
+}
+.slide-down {
+    top: 101% !important;
+    transition-duration: 300ms;
+}
+.pull-right {
     float: right;
 }
 .bg_caption {
     color: #EEE;
 }
-hr {
-    margin: .5ex auto 0 auto;
-    width: 50%;
+.bigfont {
+    font-size: 200%;
+    font-weight: bold;
 }
