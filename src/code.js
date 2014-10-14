@@ -105,11 +105,11 @@ $(function() {
                 next_image();
                 break;
 
-            default: return; // exit this handler for other keys
+            default: return;
         }
-        e.preventDefault(); // prevent the default action (scroll / move caret)
+        e.preventDefault();
 
-});
+    });
 
 });
 
