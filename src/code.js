@@ -39,7 +39,7 @@ $(function() {
             for (n=1;n<5;n++) {
                 setTimeout( function() {
                     cont.isotope('arrange');
-                }, n*2*1000);
+                }, n*2*100);
             }
         });
 
