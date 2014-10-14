@@ -2,40 +2,21 @@ body {
     background: #333;
     font-family: 'PT Sans', sans-serif;
 }
-
 img {
     border: none;
     margin: 1ex;
     border: solid 3px #555;
     border-radius: 3px;
 }
-
-.bg_caption {
-    color: #EEE;
-}
-a {
-    font-weight: bold;
-}
-
 img:hover {
     border: solid 3px #EEE;
     transform: scale(1.2);
     z-index: 3;
     transition-duration: 300ms;
 }
-
-button.current {
-    color: #E33;
+a {
+    font-weight: bold;
 }
-
-#dl_ref {
-    float: right;
-}
-hr {
-    margin: .5ex auto 0 auto;
-    width: 50%;
-}
-
 button {
     background: #e3e3e3;
     border: 1px solid #bbb;
@@ -45,7 +26,19 @@ button {
     color: #333;
     font: bold 12px/1 "helvetica neue", helvetica, arial, sans-serif;
     margin: 2px;
-/*    padding: 8px 0 9px;*/
     text-align: center;
     text-shadow: 0 1px 0 #fff;
+}
+button.current {
+    color: #E33;
+}
+#dl_ref {
+    float: right;
+}
+.bg_caption {
+    color: #EEE;
+}
+hr {
+    margin: .5ex auto 0 auto;
+    width: 50%;
 }
