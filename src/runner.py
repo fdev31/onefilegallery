@@ -141,7 +141,7 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', metavar='FOLDER', type=str, help='destination folder')
     parser.add_argument('-f', '--overwrite', action='store_true', help='overwrite files', default=False)
     parser.add_argument('-c', '--copy', action='store_true', help='copy original images', default=False)
-    parser.add_argument('-s', '--resize', metavar='SIZE', action='store', help='resize original images when copying (give a maximum dimension in pixels, i.e: "200") -- Implies "-c"', default=False)
+    parser.add_argument('-s', '--resize', metavar='SIZE', action='store', help='resize original images when copying (give a maximum width or height in pixels, i.e: "1280") -- Implies "-c"', default=False)
     parser.add_argument('-q', '--quality', metavar='QUALITY', action='store', type=int, help='Output image quality in range [0-100] -- Useless with "-s"', default=90)
     args = parser.parse_args()
 
