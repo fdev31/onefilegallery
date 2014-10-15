@@ -31,12 +31,14 @@ class ImageHandler:
 
     def get_rotation(self, filename):
         img = self._get_image(filename)
-        rot = img._getexif()[274]
+        exif = img._getexif()
+        if exif is not None:
+            rot = exif[274]
 
-        if rot == 6:
-            return 270
-        elif rot == 8:
-            return 90
+            if rot == 6:
+                return 270
+            elif rot == 8:
+                return 90
         return 0
 
     def minify(self, filename, size=None):
@@ -271,7 +273,7 @@ var prev_image = function() {
 $(function() {
     $('#container').isotope({itemSelector: '.item',   isFitWidth: true, filter:'.p0'});
     pass = prompt("Password:");
-    $('#dl_ref').attr('href', pass+'/packages.zip');
+    $('#dl_ref').attr('href', pass+'/package.zip');
     $.get('./'+pass+'/images.js')
         .done(function(res) {
             data = JSON.parse(res);
@@ -338,7 +340,7 @@ $(function() {
         </script>
     </head>
     <body>
-        <a class="bg_caption pull-right" href="package.zip">Download all files</a>
+        <a id="dl_ref" class="bg_caption pull-right" href="package.zip">Download all files</a>
         <div id="pages"><span class="bg_caption">Pages:</span></div>
         <hr />
         <div id="container">
