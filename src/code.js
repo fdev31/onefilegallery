@@ -51,7 +51,7 @@ var prev_image = function() {
 $(function() {
     $('#container').isotope({itemSelector: '.item',   isFitWidth: true, filter:'.p0'});
     pass = prompt("Password:");
-    $('#dl_ref').attr('href', pass+'/packages.zip');
+    $('#dl_ref').attr('href', pass+'/package.zip');
     $.get('./'+pass+'/images.js')
         .done(function(res) {
             data = JSON.parse(res);
