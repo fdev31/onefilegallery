@@ -2,7 +2,6 @@
 from __future__ import print_function
 import os
 import sys
-import ctypes
 from PIL import Image
 
 TMP='/tmp/'
@@ -12,46 +11,6 @@ class ImageHandler:
     TN_SZ = (200, 200) # pixels
 
     def __init__(self):
-        C="""#include <stdio.h>
-#include <string.h>
-
-#include <libexif/exif-data.h>
-
-/* gcc -std=c99 -W -Wall e.c -ggdb3 -lexif -fPIC -shared -o getex.so */
-
-int get_rotation(char *filename) {
-    ExifData *image;
-    ExifEntry *info;
-    char message[1024];
-
-    image = exif_data_new_from_file( filename );
-    info = exif_data_get_entry(image, EXIF_TAG_ORIENTATION);
-    exif_entry_get_value(info, message, 1024);
-    if( strcmp(message, "Left-bottom") == 0) return 90;
-    if( strcmp(message, "Right-top") == 0) return 270; /* -90 */
-    return 0;
-}
-
-/*
-   int main(int argc, char **argv) {
-
-   for (int i=1; i<argc; i++) {
-   printf("%s %d\n", argv[1], get_rotation(argv[1]));
-   }
-   return 0;
-   }
-   */
-"""
-
-        SO_FILE = TMP + 'getex.so'
-        if not os.path.exists(SO_FILE):
-            open(TMP+'e.c', 'w').write(C)
-            os.system('gcc ' + TMP + 'e.c -std=c99 -W -Wall -lexif -fPIC -shared -o ' + SO_FILE)
-
-        exif = ctypes.CDLL(SO_FILE)
-        fn_sign = ctypes.CFUNCTYPE( ctypes.c_int, ctypes.c_char_p )
-
-        self.fn = fn_sign(exif.get_rotation)
         self.current_img_name = ''
 
     def _get_image(self, filename):
@@ -71,7 +30,14 @@ int get_rotation(char *filename) {
         return img
 
     def get_rotation(self, filename):
-        return self.fn(filename.encode('latin1'))
+        img = self._get_image(filename)
+        rot = img._getexif()[274]
+
+        if rot == 6:
+            return 270
+        elif rot == 8:
+            return 90
+        return 0
 
     def minify(self, filename, size=None):
         img = self._get_image(filename)
@@ -359,11 +325,11 @@ $(function() {
                 next_image();
                 break;
 
-            default: return; // exit this handler for other keys
+            default: return;
         }
-        e.preventDefault(); // prevent the default action (scroll / move caret)
+        e.preventDefault();
 
-});
+    });
 
 });
 

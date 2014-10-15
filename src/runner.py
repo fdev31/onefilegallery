@@ -2,7 +2,6 @@
 from __future__ import print_function
 import os
 import sys
-import ctypes
 from PIL import Image
 
 TMP='/tmp/'
@@ -12,17 +11,6 @@ class ImageHandler:
     TN_SZ = (200, 200) # pixels
 
     def __init__(self):
-        C="""{{{C_CODE}}}"""
-
-        SO_FILE = TMP + 'getex.so'
-        if not os.path.exists(SO_FILE):
-            open(TMP+'e.c', 'w').write(C)
-            os.system('gcc ' + TMP + 'e.c -std=c99 -W -Wall -lexif -fPIC -shared -o ' + SO_FILE)
-
-        exif = ctypes.CDLL(SO_FILE)
-        fn_sign = ctypes.CFUNCTYPE( ctypes.c_int, ctypes.c_char_p )
-
-        self.fn = fn_sign(exif.get_rotation)
         self.current_img_name = ''
 
     def _get_image(self, filename):
@@ -42,7 +30,14 @@ class ImageHandler:
         return img
 
     def get_rotation(self, filename):
-        return self.fn(filename.encode('latin1'))
+        img = self._get_image(filename)
+        rot = img._getexif()[274]
+
+        if rot == 6:
+            return 270
+        elif rot == 8:
+            return 90
+        return 0
 
     def minify(self, filename, size=None):
         img = self._get_image(filename)
