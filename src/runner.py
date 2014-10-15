@@ -31,12 +31,14 @@ class ImageHandler:
 
     def get_rotation(self, filename):
         img = self._get_image(filename)
-        rot = img._getexif()[274]
+        exif = img._getexif()
+        if exif is not None:
+            rot = exif[274]
 
-        if rot == 6:
-            return 270
-        elif rot == 8:
-            return 90
+            if rot == 6:
+                return 270
+            elif rot == 8:
+                return 90
         return 0
 
     def minify(self, filename, size=None):
