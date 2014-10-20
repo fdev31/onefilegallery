@@ -2,7 +2,6 @@
 from __future__ import print_function
 import os
 import sys
-from PIL import Image
 
 TMP='/tmp/'
 
@@ -126,6 +125,7 @@ try:
     import jpegtran
     ImageHandler = JpegTranHandler
 except:
+    from PIL import Image
     ImageHandler = PILHandler
 
 class ImageList:
