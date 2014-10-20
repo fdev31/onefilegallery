@@ -122,7 +122,7 @@ class PILHandler(BaseImageHandler):
         return img
 
 try:
-    import jpegtranX
+    import jpegtran
     ImageHandler = JpegTranHandler
 except:
     from PIL import Image
