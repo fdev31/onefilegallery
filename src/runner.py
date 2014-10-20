@@ -26,10 +26,21 @@ def dontloadtwice(decorated):
 
 
 class BaseImageHandler:
+
     MAX_SZ = 200 # pixels
+
+    _rot_map = {
+            6: 270,
+            8: 90,
+            1: 0,
+        }
 
     def __init__(self):
         self.current_img_name = ''
+
+    @dontloadtwice
+    def get_rotation(self, img):
+        return self._rot_map(self._exif_rot(img))
 
     @dontloadtwice
     def get_rotation(self, img):
@@ -37,31 +48,24 @@ class BaseImageHandler:
         if rot == 6:
             return 270
         elif rot == 8:
-            return 90
+            return -90
         elif rot != 1:
             import pdb; pdb.set_trace()
         return 0
 
 class JpegTranHandler(BaseImageHandler):
 
+    _rot_map = {
+            6: 270,
+            8: -90,
+            1: 0,
+        }
+
     def _load(self, img):
         return jpegtran.JPEGImage( img )
 
-    @dontloadtwice
-    def get_rotation(self, img):
-        rot = BaseImageHandler.get_rotation(self, img)
-        if rot == 90:
-            rot = -90
-        return rot
-
     def _exif_rot(self, img):
         return img.exif_orientation
-
-    '''
-    @dontloadtwice
-    def auto_rotate(self, img):
-        return img.exif_autotransform()
-'''
 
     @dontloadtwice
     def minify(self, img, size=None):
@@ -104,14 +108,6 @@ class PILHandler(BaseImageHandler):
             return img.rotate(angle)
         return img
 
-    '''
-    @dontloadtwice
-    def auto_rotate(self, img):
-        r = self.get_rotation(img)
-        if r != 0:
-            img = img.rotate(r)
-        return img
-'''
 
     @dontloadtwice
     def minify(self, img, size=None):
