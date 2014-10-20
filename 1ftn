@@ -6,50 +6,131 @@ from PIL import Image
 
 TMP='/tmp/'
 
-class ImageHandler:
-
-    TN_SZ = (200, 200) # pixels
-
-    def __init__(self):
-        self.current_img_name = ''
-
-    def _get_image(self, filename):
-        if not isinstance(filename, str):
-            return filename
-        if self.current_img_name != filename:
-            self.current_img = Image.open( filename )
-            self.current_img_name = filename
-        return self.current_img
-
-
-    def auto_rotate(self, filename):
-        img = self._get_image(filename)
-        r = self.get_rotation(filename)
-        if r != 0:
-            img = img.rotate(r)
-        return img
-
-    def get_rotation(self, filename):
-        img = self._get_image(filename)
-        exif = img._getexif()
-        if exif is not None:
-            rot = exif[274]
-
-            if rot == 6:
-                return 270
-            elif rot == 8:
-                return 90
-        return 0
-
-    def minify(self, filename, size=None):
-        img = self._get_image(filename)
-        img.thumbnail( size or self.TN_SZ, Image.ANTIALIAS )
-
-
 class FatalError(SystemExit): pass
 
 def progress_maker(cur, maxi):
     return '%5.1f%%'%((cur*100.0/maxi))
+
+
+def dontloadtwice(decorated):
+    def _decorator(self, img=None, *args, **kw):
+        if isinstance(img, str):
+            if self.current_img_name != img:
+                self.current_img_name = img
+                img = self.current_img = self._load(img)
+            else:
+                img = self.current_img
+        img = decorated(self, img or self.current_img, *args, **kw )
+        return img
+    return _decorator
+
+
+class BaseImageHandler:
+    MAX_SZ = 200 # pixels
+
+    def __init__(self):
+        self.current_img_name = ''
+
+    @dontloadtwice
+    def get_rotation(self, img):
+        rot = self._exif_rot(img)
+        if rot == 6:
+            return 270
+        elif rot == 8:
+            return 90
+        elif rot != 1:
+            import pdb; pdb.set_trace()
+        return 0
+
+class JpegTranHandler(BaseImageHandler):
+
+    def _load(self, img):
+        return jpegtran.JPEGImage( img )
+
+    @dontloadtwice
+    def get_rotation(self, img):
+        rot = BaseImageHandler.get_rotation(self, img)
+        if rot == 90:
+            rot = -90
+        return rot
+
+    def _exif_rot(self, img):
+        return img.exif_orientation
+
+    '''
+    @dontloadtwice
+    def auto_rotate(self, img):
+        return img.exif_autotransform()
+'''
+
+    @dontloadtwice
+    def minify(self, img, size=None):
+        w, h = img.width, img.height
+        size = size or self.MAX_SZ
+        if w > h:
+            aspect = h/w
+            nw = size
+            nh = int(aspect * size)
+        else:
+            aspect = w/h
+            nh = size
+            wh = int(aspect * size)
+        img = img.downscale(nw, nh)
+        return img
+
+    @dontloadtwice
+    def save(self, img, path, quality):
+        return img.save(path)
+
+    @dontloadtwice
+    def rotate(self, img, angle):
+        if angle:
+            return img.rotate(angle)
+        return img
+
+
+class PILHandler(BaseImageHandler):
+    def _load(self, img):
+        return Image.open( img )
+
+    def _exif_rot(self, img):
+        e = img._getexif()
+        if e:
+            return e[274]
+
+    @dontloadtwice
+    def rotate(self, img, angle):
+        if angle:
+            return img.rotate(angle)
+        return img
+
+    '''
+    @dontloadtwice
+    def auto_rotate(self, img):
+        r = self.get_rotation(img)
+        if r != 0:
+            img = img.rotate(r)
+        return img
+'''
+
+    @dontloadtwice
+    def minify(self, img, size=None):
+        sz = size or self.MAX_SZ
+        imgcopy = img
+#        imgcopy = img.copy() # XXX: commenting this is a bug that is a speed boost
+        imgcopy.thumbnail( (sz, sz), Image.ANTIALIAS )
+        return imgcopy
+
+    @dontloadtwice
+    def save(self,img , path, quality):
+        img = img.save( path, quality=quality, progressive=True, optimize=True)
+        return img
+
+try:
+    import jpegtran
+    ImageHandler = JpegTranHandler
+except:
+    ImageHandler = PILHandler
 
 class ImageList:
 
@@ -57,7 +138,7 @@ class ImageList:
     infos = []
 
     def __init__(self, path, overwrite=False):
-        files = [fname for fname in os.listdir(path) if fname.rsplit('.')[-1].lower() in ('jpg', 'png', 'jpeg')]
+        files = [fname for fname in os.listdir(path) if fname.rsplit('.')[-1].lower() in ('jpg', 'jpeg')]
         filenames = []
         infos = []
         for i, name in enumerate(files):
@@ -86,9 +167,10 @@ class ImageList:
             name = os.path.basename(fullpath)
             t_tn_path = os.path.join( tn_path, name )
             if self.overwrite or not os.path.exists(t_tn_path):
-                img_mgr.minify( fullpath )
-                src_img = img_mgr.auto_rotate( fullpath )
-                src_img.save( t_tn_path , quality=60, progressive=True, optimize=True)
+                rot = img_mgr.get_rotation( fullpath )
+                src_img = img_mgr.minify( fullpath )
+                src_img = img_mgr.rotate( src_img, rot)
+                img_mgr.save(src_img, t_tn_path, quality=60 )
 
 class Output:
     path = None
@@ -377,33 +459,29 @@ if __name__ == "__main__":
     out = Output(args.output or args.input)
     print("\nMaking thumbnails...")
     images.make_thumbs(out)
-    print("\nHTML")
+    print("\nWriting web page")
     w = HTMLWriter(images, out)
     w.write()
-    print("\nJSON")
     w = JSONWriter(images, out)
     w.write()
     package_files = []
     if args.copy:
-        if args.resize:
-            print("\nResizing...")
-            img_mgr = ImageHandler()
-            sz = (int(args.resize), int(args.resize))
-            for i, fname in enumerate(images.filenames):
-                print('\r' + progress_maker(i, len(images.filenames)), end='')
-                p = os.path.join(out.path, os.path.basename(fname))
-                package_files.append( p )
-                if os.path.exists(p) and not args.overwrite:
-                    continue
-                img_mgr.minify( fname , sz )
-                src_img = img_mgr.auto_rotate( fname )
-                src_img.save( p , quality=args.quality, progressive=True, optimize=True)
-        else:
-            print("\nCopying...")
-            for i, fname in enumerate(images.filenames):
-                print('\r' + progress_maker(i, len(images.filenames)), end='')
-                out_fname = os.path.join(out.path, os.path.basename(fname))
-                open(out_fname, 'wb').write( open(fname, 'rb').read() )
+        noop = args.input == args.output
+        img_mgr = ImageHandler()
+        print("\nCopying...")
+        sz = int(args.resize)
+        for i, fname in enumerate(images.filenames):
+            print('\r' + progress_maker(i, len(images.filenames)), end='')
+            out_fname = os.path.join(out.path, os.path.basename(fname))
+            package_files.append( out_fname )
+            if noop or ( os.path.exists(out_fname) and not args.overwrite):
+                continue
+            rot = img_mgr.get_rotation(fname)
+            if args.resize:
+                src_img = img_mgr.minify( fname , sz )
+                img_mgr.current_img = src_img
+            src_img = img_mgr.rotate( fname, rot )
+            img_mgr.save( src_img, out_fname, quality=args.quality)
 
     zfname = os.path.join(out.path, 'package.zip')
 
