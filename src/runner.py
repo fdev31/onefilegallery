@@ -39,18 +39,7 @@ class BaseImageHandler:
 
     @dontloadtwice
     def get_rotation(self, img):
-        return self._rot_map(self._exif_rot(img))
-
-    @dontloadtwice
-    def get_rotation(self, img):
-        rot = self._exif_rot(img)
-        if rot == 6:
-            return 270
-        elif rot == 8:
-            return -90
-        elif rot != 1:
-            import pdb; pdb.set_trace()
-        return 0
+        return self._rot_map[self._exif_rot(img)]
 
 class JpegTranHandler(BaseImageHandler):
 
@@ -226,8 +215,6 @@ if __name__ == "__main__":
     print("Listing...")
     images  = ImageList(args.input, overwrite=args.overwrite)
     out = Output(args.output or args.input)
-    print("\nMaking thumbnails...")
-    images.make_thumbs(out)
     print("\nWriting web page")
     w = HTMLWriter(images, out)
     w.write()
@@ -251,6 +238,10 @@ if __name__ == "__main__":
                 img_mgr.current_img = src_img
             src_img = img_mgr.rotate( fname, rot )
             img_mgr.save( src_img, out_fname, quality=args.quality)
+
+
+    print("\nMaking thumbnails...")
+    images.make_thumbs(out) # TODO: re-use scaled+rotated images instead of originals
 
     zfname = os.path.join(out.path, 'package.zip')
 
