@@ -468,7 +468,7 @@ if __name__ == "__main__":
 
 
     print("\nMaking thumbnails...")
-    images.make_thumbs(out)
+    images.make_thumbs(out) # TODO: re-use scaled+rotated images instead of originals
 
     zfname = os.path.join(out.path, 'package.zip')
 
