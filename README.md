@@ -30,3 +30,8 @@ Get [the file](./1ftn)
 Now copy the */tmp/mygallery* folder and the */tmp/index.html* file to a webserver to enjoy your static HTML5 gallery.
 
 You will be prompted for a password, it must match the folder name.
+
+# Roadmap
+
+- slideshow mode
+- use same loop for thumbnails & copy (will run slightly faster)
