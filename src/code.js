@@ -23,6 +23,20 @@ var _set_image = function() {
     $('#projected_name').text( txt );
 }
 
+var slideshow_id = 0;
+
+var slideshow_button = function() {
+    if (slideshow_id) {
+        clearInterval(slideshow_id);
+        slideshow_id = 0;
+        $('#slide_button').html('&#x25B6;');
+    } else {
+        $('#slide_button').html('&#x25FC;');
+        var slideshow_delay = Math.floor( parseFloat( $('#delay').val() )*1000 );
+        slideshow_id = setInterval( next_image, slideshow_delay );
+    }
+}
+
 var view_image = function(obj, counter) {
     cur_image = counter;
     _set_image();
@@ -35,6 +49,10 @@ var next_image = function() {
         _set_image();
         if (cur_image+1 < data.length) {
             _set_next_image(pass + '/' + data[cur_image+1].f);
+        }
+    } else {
+        if (!! slideshow_id) {
+            slideshow_button();
         }
     }
 }
@@ -86,7 +104,11 @@ $(function() {
         switch(e.which) {
 
             case 27: // escape
-                $('#projector').addClass('slide-down');
+                if (!!slideshow_id) {
+                    slideshow_button();
+                } else {
+                    $('#projector').addClass('slide-down');
+                }
                 break;
 
             case 37: // left

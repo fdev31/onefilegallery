@@ -312,6 +312,20 @@ var _set_image = function() {
     $('#projected_name').text( txt );
 }
 
+var slideshow_id = 0;
+
+var slideshow_button = function() {
+    if (slideshow_id) {
+        clearInterval(slideshow_id);
+        slideshow_id = 0;
+        $('#slide_button').html('&#x25B6;');
+    } else {
+        $('#slide_button').html('&#x25FC;');
+        var slideshow_delay = Math.floor( parseFloat( $('#delay').val() )*1000 );
+        slideshow_id = setInterval( next_image, slideshow_delay );
+    }
+}
+
 var view_image = function(obj, counter) {
     cur_image = counter;
     _set_image();
@@ -324,6 +338,10 @@ var next_image = function() {
         _set_image();
         if (cur_image+1 < data.length) {
             _set_next_image(pass + '/' + data[cur_image+1].f);
+        }
+    } else {
+        if (!! slideshow_id) {
+            slideshow_button();
         }
     }
 }
@@ -375,7 +393,11 @@ $(function() {
         switch(e.which) {
 
             case 27: // escape
-                $('#projector').addClass('slide-down');
+                if (!!slideshow_id) {
+                    slideshow_button();
+                } else {
+                    $('#projector').addClass('slide-down');
+                }
                 break;
 
             case 37: // left
@@ -414,7 +436,8 @@ $(function() {
         </div>
         <div id="projector"  class="slide-down">
             <button class="pull-right bigfont" onclick="$('#projector').addClass('slide-down')">&#x2716;</button>
-            <h1 id="projected_name">Nice photo</h1>
+            <span class="pull-right"><form action="#"><input type="text" id="delay" size="3" value="3.5"></input>&nbsp;<button id="slide_button" class="bigfont" onclick="slideshow_button()">&#x25B6;</button></form></span>
+            <h1 id="projected_name">Nice photo </h1>
             <button onclick="next_image()" class="pull-right bigfont">&#x27F6;</button>
             <button onclick="prev_image()" class="bigfont">&#x27F5;</button>
             <img id="projected" />
