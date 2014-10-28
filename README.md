@@ -34,3 +34,4 @@ You will be prompted for a password, it must match the folder name.
 # Roadmap
 
 - use same loop for thumbnails & copy (will run slightly faster)
+- drop jQuery
