@@ -62,7 +62,7 @@ button.busy {
     left: 0;
     width: 98%;
     height: 98%;
-    background-color: #567;
+    background-color: rgb(28, 35, 42);
     margin: 0;
     padding: 1%;
     z-index: 3;
