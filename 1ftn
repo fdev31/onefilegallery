@@ -263,7 +263,7 @@ input#delay {
     margin-top: 0.1ex;
 }
 button.busy {
-    background-color: orange;
+    color: orange;
 }
 #projector {
     position: fixed;
