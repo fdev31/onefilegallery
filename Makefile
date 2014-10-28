@@ -1,5 +1,6 @@
-csslint=csslint-0.6
-cssmin=python -m rcssmin
+jsmin=python -m rjsmin < $1 > $2
+csslint=csslint-0.6 $1 > $2
+cssmin=python -m rcssmin < $1 > $2
 
 all: 1ftn
 
@@ -7,11 +8,11 @@ all: 1ftn
 	./compile
 
 src/_code.js: src/code.js
-	jsmin < $< > $@
+	$(call jsmin , $<, $@)
 
 src/_style.css: src/style.css
-	${csslint} $< > tmp_
-	${cssmin} < tmp_ > $@
+	$(call csslint, $<, tmp_)
+	$(call cssmin, tmp_, $@)
 	rm tmp_
 
 clean:
