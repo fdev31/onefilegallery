@@ -124,6 +124,7 @@ class ImageList:
 
     def __init__(self, path, overwrite=False):
         files = [fname for fname in os.listdir(path) if fname.rsplit('.')[-1].lower() in ('jpg', 'jpeg')]
+        files.sort()
         filenames = []
         infos = []
         for i, name in enumerate(files):
