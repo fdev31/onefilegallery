@@ -8,6 +8,8 @@ TMP='/tmp/'
 class FatalError(SystemExit): pass
 
 def progress_maker(cur, maxi):
+    if cur == maxi:
+        return ' Done!'
     return '%5.1f%%'%((cur*100.0/maxi))
 
 
@@ -132,6 +134,7 @@ class ImageList:
             fullpath = os.path.join(path, name)
             filenames.append(fullpath)
             infos.append(dict(t='tn/'+name, f=name))
+        print('\r' + progress_maker(len(files), len(files)), end='')
         self.filenames = filenames
         self.infos = infos
         self.overwrite = overwrite
@@ -157,6 +160,7 @@ class ImageList:
                 src_img = img_mgr.minify( fullpath )
                 src_img = img_mgr.rotate( src_img, rot)
                 img_mgr.save(src_img, t_tn_path, quality=60 )
+        print('\r' + progress_maker(len(self.filenames), len(self.filenames)), end='')
 
 class Output:
     path = None
@@ -246,6 +250,8 @@ input#delay {
     border-radius: 3px;
     border: 1px solid #BBB;
     float: left;
+    font-size: 170%;
+    margin-top: 0.1ex;
 }
 #projector {
     position: fixed;
@@ -442,12 +448,12 @@ $(function() {
         <div id="container">
         </div>
         <div id="projector"  class="slide-down">
-            <button class="pull-right bigfont" onclick="$('#projector').addClass('slide-down')">&#x2716;</button>
-            <span class="pull-right"><form action="#"><input class="bigfont" title="Slideshow delay" type="text" id="delay" size="3" value="3.5"></input>&nbsp;<button id="slide_button" class="bigfont" onclick="slideshow_button()">&#x25B6;</button></form></span>
+            <button class="pull-right bigfont" title="Close image viewer" onclick="$('#projector').addClass('slide-down')">&#x2716;</button>
+            <span class="pull-right"><form action="#"><input class="bigfont" title="Slideshow delay" type="text" id="delay" size="3" value="3.5"></input>&nbsp;<button id="slide_button" class="bigfont" title="Toggle slideshow mode" onclick="slideshow_button()">&#x25B6;</button></form></span>
             <h1 id="projected_name">Nice photo </h1>
-            <button onclick="next_image()" class="pull-right bigfont">&#x27F6;</button>
-            <button onclick="prev_image()" class="bigfont">&#x27F5;</button>
-            <img id="projected" />
+            <button title="Show next image" onclick="next_image()" class="pull-right bigfont">&#x27F6;</button>
+            <button title="Show previous image" onclick="prev_image()" class="bigfont">&#x27F5;</button>
+            <img title="Use Arrow keys to change current image" id="projected" />
             <img id="next_projected" />
         </div>
     </body>

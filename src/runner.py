@@ -8,6 +8,8 @@ TMP='/tmp/'
 class FatalError(SystemExit): pass
 
 def progress_maker(cur, maxi):
+    if cur == maxi:
+        return ' Done!'
     return '%5.1f%%'%((cur*100.0/maxi))
 
 
@@ -132,6 +134,7 @@ class ImageList:
             fullpath = os.path.join(path, name)
             filenames.append(fullpath)
             infos.append(dict(t='tn/'+name, f=name))
+        print('\r' + progress_maker(len(files), len(files)), end='')
         self.filenames = filenames
         self.infos = infos
         self.overwrite = overwrite
@@ -157,6 +160,7 @@ class ImageList:
                 src_img = img_mgr.minify( fullpath )
                 src_img = img_mgr.rotate( src_img, rot)
                 img_mgr.save(src_img, t_tn_path, quality=60 )
+        print('\r' + progress_maker(len(self.filenames), len(self.filenames)), end='')
 
 class Output:
     path = None

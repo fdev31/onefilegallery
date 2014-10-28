@@ -41,6 +41,8 @@ input#delay {
     border-radius: 3px;
     border: 1px solid #BBB;
     float: left;
+    font-size: 170%;
+    margin-top: 0.1ex;
 }
 #projector {
     position: fixed;
