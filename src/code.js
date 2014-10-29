@@ -11,12 +11,19 @@ var switch_page = function(nr) {
     $($('button').get(nr)).addClass('current');
 }
 
-var _set_next_image = function(url) {
+var _set_left_image = function(url) {
     setTimeout( function() {
-        $('#next_projected').attr('src', url);
+        $('#prev_projected').attr('src', url);
+        console.log('prev:', $('#prev_projected').attr('src'), 'next:', $('#next_projected').attr('src'));
     }, 150);
 }
+var _set_right_image = function(url) {
+    setTimeout( function() {
+        $('#next_projected').attr('src', url);
+    }, 100);
+}
 var _set_image = function() {
+    _image_setter = 0;
     $('#projected').attr('src', pass + '/' + data[cur_image].f);
     var txt = data[cur_image].f.replace(/.*[/]/, '');
     txt += ' ('+(1+cur_image)+'/'+data.length+')';
@@ -42,6 +49,8 @@ var slideshow_button = function() {
     }
 }
 
+var _image_setter = 0;
+
 var view_image = function(obj, counter) {
     cur_image = counter;
     if ( $('#projector').hasClass('slide-down') ) {
@@ -49,17 +58,21 @@ var view_image = function(obj, counter) {
         $('#projected').addClass('loading-bg');
         $('#projector').removeClass('slide-down');
     }
-    setTimeout( _set_image, 30);
+    if (!!_image_setter) {
+        clearTimeout(_image_setter )
+    }
+    _image_setter = setTimeout( _set_image, 150);
 }
 
 var next_image = function() {
         if (cur_image+1 < data.length) {
+            _set_left_image(pass + '/' + data[cur_image].f);
             $('#next_button').addClass('busy');
             setTimeout( function() {
                 cur_image++;
                 _set_image();
                 if (cur_image+1 < data.length) {
-                    _set_next_image(pass + '/' + data[cur_image+1].f);
+                    _set_right_image(pass + '/' + data[cur_image+1].f);
                 }
             }, 10);
         } else {
@@ -72,11 +85,12 @@ var prev_image = function() {
     if (cur_image > 0) {
         $('#prev_button').addClass('busy');
         setTimeout( function() {
+            _set_right_image(pass + '/' + data[cur_image].f);
             cur_image--;
-            _set_image();
             if (cur_image > 0) {
-                _set_next_image(pass + '/' + data[cur_image-1].f);
+                _set_left_image(pass + '/' + data[cur_image-1].f);
             }
+            _set_image();
         } , 10);
     }
 }

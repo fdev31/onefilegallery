@@ -82,8 +82,9 @@ button.busy {
     display: block;
     width: 1px;
     height: 1px;
-    opacity: 0.01;
+    opacity: 0.1;
     margin-top: 1ex;
+    border: none;
 }
 
 .slide-down {
