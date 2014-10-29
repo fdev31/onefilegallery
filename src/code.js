@@ -14,12 +14,12 @@ var switch_page = function(nr) {
 var _set_left_image = function(url) {
     setTimeout( function() {
         $('#prev_projected').attr('src', url);
-    }, 150);
+    }, 550);
 }
 var _set_right_image = function(url) {
     setTimeout( function() {
         $('#next_projected').attr('src', url);
-    }, 100);
+    }, 500);
 }
 var _set_image = function() {
     _image_setter = 0;
@@ -27,7 +27,6 @@ var _set_image = function() {
     var txt = data[cur_image].f.replace(/.*[/]/, '');
     txt += ' ('+(1+cur_image)+'/'+data.length+')';
     $('#projected_name').text( txt );
-    $('#projected').removeClass('loading-bg');
 }
 
 var slideshow_id = false;
@@ -50,17 +49,17 @@ var slideshow_button = function() {
 
 var _image_setter = 0;
 
+/* only called when a click on the thumbnail image occurs */
 var view_image = function(obj, counter) {
     cur_image = counter;
     if ( $('#projector').hasClass('slide-down') ) {
-        $('#projected').attr('src', '');
-        $('#projected').addClass('loading-bg');
         $('#projector').removeClass('slide-down');
+        $('#projected').attr('src', '');
     }
     if (!!_image_setter) {
         clearTimeout(_image_setter )
     }
-    _image_setter = setTimeout( _set_image, 150);
+    _image_setter = setTimeout( _set_image, 250);
 }
 
 var next_image = function(user_action) {
@@ -107,6 +106,7 @@ var prev_image = function(user_action) {
 
 var close_projector = function() {
     $('#projector').addClass('slide-down');
+    $('#projected').addClass('loading');
     if(slideshow_id) slideshow_button();
 }
 
@@ -145,6 +145,7 @@ $(function() {
 
     $('#projected').on('load', function(e) {
         $('button.busy').removeClass('busy');
+        $('#projected').removeClass('loading');
         if(!!slideshow_id) {
             _start_show();
         }
@@ -162,19 +163,19 @@ $(function() {
                 break;
 
             case 37: // left
-                prev_image();
+                prev_image(true);
                 break;
 
             case 38: // up
-                prev_image();
+                prev_image(true);
                 break;
 
             case 39: // right
-                next_image();
+                next_image(true);
                 break;
 
             case 40: // down
-                next_image();
+                next_image(true);
                 break;
 
             default: return;

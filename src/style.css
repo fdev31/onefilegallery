@@ -67,7 +67,7 @@ button.busy {
     padding: 1%;
     z-index: 3;
     transition-property: top;
-    transition-duration: 400ms;
+    transition-duration: 230ms;
     transition-timing-function: ease-in;
 }
 #projected {
@@ -77,6 +77,8 @@ button.busy {
     min-height: 10px;
     max-width: 90%;
     max-height: 90%;
+    transition-property: opacity;
+    transition-duration: 1000ms;
 }
 .cache {
     display: block;
@@ -100,6 +102,6 @@ button.busy {
     font-size: 200%;
     font-weight: bold;
 }
-.loading-bg {
-    background: url(data:image/svg+xml;base64,{{{SVG_FILE}}}) repeat;
+.loading {
+    opacity: 0.0;
 }
