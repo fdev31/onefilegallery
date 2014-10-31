@@ -155,16 +155,20 @@ document.addEventListener('DOMContentLoaded', function() {
             data = JSON.parse(this.responseText);
             var pages = document.querySelector('#pages');
 
-            for(var i=0; i<data.length; i=i+page_size) {
-                var p=i/page_size;
-                var btn = document.createElement('button');
-                btn.onclick = function() {
-                    var page = p;
-                    return function() {switch_page(page)};
-                }();
-                btn.innerHTML = '&nbsp;'+p+'&nbsp;';
-                pages.appendChild( btn );
-            };
+            if ( data.length > page_size ) {
+                for(var i=0; i<data.length; i=i+page_size) {
+                    var p=i/page_size;
+                    var btn = document.createElement('button');
+                    btn.onclick = function() {
+                        var page = p;
+                        return function() {switch_page(page)};
+                    }();
+                    btn.innerHTML = '&nbsp;'+(p+1)+'&nbsp;';
+                    pages.appendChild( btn );
+                };
+            } else {
+                pages.style.visibility = 'hidden';
+            }
             var html = [];
             var d = {};
             var counter = 0;
@@ -177,7 +181,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 var e = document.createElement('div');
                 e.innerHTML = html.join('');
                 isotope.insert(e);
-                document.querySelector('button').classList.add('current');
+                if ( data.length > page_size )
+                    document.querySelector('button').classList.add('current');
             }, 100);
             // ugly workaround of the death
             for (n=1;n<5;n++) {

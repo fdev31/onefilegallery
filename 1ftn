@@ -41,7 +41,10 @@ class BaseImageHandler:
 
     @dontloadtwice
     def get_rotation(self, img):
-        return self._rot_map[self._exif_rot(img)]
+        r = self._exif_rot(img)
+        if r:
+            return self._rot_map[r]
+        return 0
 
 class JpegTranHandler(BaseImageHandler):
 
@@ -227,7 +230,9 @@ var next_image=function(user_action){var user_action=user_action||false;if(user_
 var prev_image=function(user_action){var user_action=user_action||false;if(user_action&&!!slideshow_id){cur_image--;}else{if(cur_image>0){AC('#prev_button','busy');setTimeout(function(){_set_right_image(pass+'/'+data[cur_image].f);cur_image--;if(cur_image>0){_set_left_image(pass+'/'+data[cur_image-1].f);}
 _set_image();},10);}}}
 var close_projector=function(){AC('#projector','slide-down');document.querySelector('div#container').style.visibility='visible';AC('#projected','loading');if(slideshow_id)slideshow_button();}
-document.addEventListener('DOMContentLoaded',function(){var container=document.querySelector('#container');isotope=new Isotope(container,{itemSelector:'.item',isFitWidth:true,filter:'.p0'});pass=prompt("Password:");document.querySelector('#dl_ref').attributes.href=pass+'/package.zip';var xhr=new XMLHttpRequest();xhr.open('GET','./'+pass+'/images.js',true);xhr.overrideMimeType('text/javascript; charset=utf-8');xhr.onreadystatechange=function(e){if(this.readyState==4&&this.status==200){data=JSON.parse(this.responseText);var pages=document.querySelector('#pages');for(var i=0;i<data.length;i=i+page_size){var p=i/page_size;var btn=document.createElement('button');btn.onclick=function(){var page=p;return function(){switch_page(page)};}();btn.innerHTML='&nbsp;'+p+'&nbsp;';pages.appendChild(btn);};var html=[];var d={};var counter=0;for(var i in data){d=data[i];html.push('<div class="item p'+Math.floor(counter/page_size)+'" ><img class="tn" onclick="view_image(this, '+counter+')" src="'+pass+'/'+d.t+'" ></img></div>');counter++;};setTimeout(function(){var e=document.createElement('div');e.innerHTML=html.join('');isotope.insert(e);document.querySelector('button').classList.add('current');},100);for(n=1;n<5;n++){setTimeout(function(){isotope.arrange();},n*2*100);}}};xhr.send(null);document.querySelector('#projected').onload=function(e){DC('button.busy','busy');DC('#projected','loading');if(!!slideshow_id){_start_show();}};document.onkeydown=function(e){switch(e.which){case 27:if(!!slideshow_id){slideshow_button();}else{close_projector();}
+document.addEventListener('DOMContentLoaded',function(){var container=document.querySelector('#container');isotope=new Isotope(container,{itemSelector:'.item',isFitWidth:true,filter:'.p0'});pass=prompt("Password:");document.querySelector('#dl_ref').attributes.href=pass+'/package.zip';var xhr=new XMLHttpRequest();xhr.open('GET','./'+pass+'/images.js',true);xhr.overrideMimeType('text/javascript; charset=utf-8');xhr.onreadystatechange=function(e){if(this.readyState==4&&this.status==200){data=JSON.parse(this.responseText);var pages=document.querySelector('#pages');if(data.length>page_size){for(var i=0;i<data.length;i=i+page_size){var p=i/page_size;var btn=document.createElement('button');btn.onclick=function(){var page=p;return function(){switch_page(page)};}();btn.innerHTML='&nbsp;'+(p+1)+'&nbsp;';pages.appendChild(btn);};}else{pages.style.visibility='hidden';}
+var html=[];var d={};var counter=0;for(var i in data){d=data[i];html.push('<div class="item p'+Math.floor(counter/page_size)+'" ><img class="tn" onclick="view_image(this, '+counter+')" src="'+pass+'/'+d.t+'" ></img></div>');counter++;};setTimeout(function(){var e=document.createElement('div');e.innerHTML=html.join('');isotope.insert(e);if(data.length>page_size)
+document.querySelector('button').classList.add('current');},100);for(n=1;n<5;n++){setTimeout(function(){isotope.arrange();},n*2*100);}}};xhr.send(null);document.querySelector('#projected').onload=function(e){DC('button.busy','busy');DC('#projected','loading');if(!!slideshow_id){_start_show();}};document.onkeydown=function(e){switch(e.which){case 27:if(!!slideshow_id){slideshow_button();}else{close_projector();}
 break;case 37:prev_image(true);break;case 38:prev_image(true);break;case 39:next_image(true);break;case 40:next_image(true);break;default:return;}
 e.preventDefault();};});
 
