@@ -5,12 +5,11 @@ Get [the file](./1ftn)
 ## Requirements
 
 - Python3
-- PIL / Imaging
+- PIL (Imaging) or Pillow
 
 ### Also using
 
 - Isotope
-- jQuery
 
 ## Example
 
@@ -34,4 +33,3 @@ You will be prompted for a password, it must match the folder name.
 # Roadmap
 
 - use same loop for thumbnails & copy (will run slightly faster)
-- drop jQuery
