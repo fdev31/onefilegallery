@@ -223,7 +223,7 @@ var _set_right_image=function(url){setTimeout(function(){document.querySelector(
 var _set_image=function(){_image_setter=0;document.querySelector('#projected').src=pass+'/'+data[cur_image].f;var txt=data[cur_image].f.replace(/.*[/]/,'');txt+=' ('+(1+cur_image)+'/'+data.length+')';document.querySelector('#projected_name').textContent=txt;}
 var slideshow_id=false;var _start_show=function(){var slideshow_delay=Math.floor(parseFloat(document.querySelector('#delay').value)*1000);slideshow_id=setTimeout(next_image,slideshow_delay);}
 var slideshow_button=function(){var p=document.querySelector('#projected');if(slideshow_id){clearTimeout(slideshow_id);slideshow_id=false;document.querySelector('#slide_button').innerHTML='&#x25B6;';p.style.transform='translate(0, 0) scale(1.0)';}else{document.querySelector('#slide_button').innerHTML='&#x25FC;';next_image();slideshow_id=1;p.style.transform='translate(0, 0) scale(1.1)';setTimeout(function(){var o=p.offsetTop/2;p.style.transform='translate(0, -'+o+'px) scale(1.1)';},300);}}
-var _image_setter=0;var view_image=function(obj,counter){cur_image=counter;if(document.querySelector('#projector').classList.contains('slide-down')){document.querySelector('div#container').style.visibility='hidden';DC('#projector','slide-down');document.querySelector('#projected').src='';}
+var _image_setter=0;var view_image=function(obj,counter){cur_image=counter;if(document.querySelector('#projector').classList.contains('slide-down')){document.querySelector('div#container').style.visibility='hidden';DC('#projector','slide-down');document.querySelector('#projected').src=pass+'/'+data[cur_image].t;}
 if(!!_image_setter){clearTimeout(_image_setter)}
 _image_setter=setTimeout(_set_image,250);}
 var next_image=function(user_action){var user_action=user_action||false;if(user_action&&!!slideshow_id){cur_image++;}else{if(cur_image+1<data.length){_set_left_image(pass+'/'+data[cur_image].f);document.querySelector('#next_button').classList.add('busy');setTimeout(function(){cur_image++;_set_image();if(cur_image+1<data.length){_set_right_image(pass+'/'+data[cur_image+1].f);}},10);}else{if(!!slideshow_id){slideshow_button();}}}}
@@ -247,7 +247,7 @@ e.preventDefault();};});
             </div>
             <div id="projector"  class="slide-down">
                 <button class="pull-right bigfont" title="Close image viewer" onclick="close_projector()">&#x2716;</button>
-                <span class="pull-right"><form action="#"><input class="bigfont" title="Slideshow delay" type="text" id="delay" size="3" value="3.5"></input>&nbsp;<button id="slide_button" class="bigfont" title="Toggle slideshow mode" onclick="slideshow_button()">&#x25B6;</button></form></span>
+                <span class="pull-right"><form action="#" onclick="return false;"><input class="bigfont" title="Slideshow delay" type="text" id="delay" size="3" value="3.5"></input>&nbsp;<button id="slide_button" class="bigfont" title="Toggle slideshow mode" onclick="slideshow_button(); false;">&#x25B6;</button></form></span>
                 <h1 id="projected_name">IMG XXX</h1>
                 <button id="next_button" title="Show next image" onclick="next_image(true)" class="pull-right bigfont">&#x27F6;</button>
                 <button id="prev_button" title="Show previous image" onclick="prev_image(true)" class="bigfont">&#x27F5;</button>
