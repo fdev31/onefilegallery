@@ -41,7 +41,10 @@ class BaseImageHandler:
 
     @dontloadtwice
     def get_rotation(self, img):
-        return self._rot_map[self._exif_rot(img)]
+        r = self._exif_rot(img)
+        if r:
+            return self._rot_map[r]
+        return 0
 
 class JpegTranHandler(BaseImageHandler):
 
