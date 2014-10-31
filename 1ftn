@@ -247,10 +247,10 @@ e.preventDefault();};});
             </div>
             <div id="projector"  class="slide-down">
                 <button class="pull-right bigfont" title="Close image viewer" onclick="close_projector()">&#x2716;</button>
-                <span class="pull-right"><form action="#" onclick="return false;"><input class="bigfont" title="Slideshow delay" type="text" id="delay" size="3" value="3.5"></input>&nbsp;<button id="slide_button" class="bigfont" title="Toggle slideshow mode" onclick="slideshow_button(); false;">&#x25B6;</button></form></span>
+                <span class="pull-right"><form action="#" onclick="return false;"><input class="bigfont" title="Slideshow delay" type="text" id="delay" size="3" value="3.5"></input>&nbsp;<button id="slide_button" class="bigfont" title="Toggle slideshow mode" onclick="slideshow_button(); false;">&#9654;</button></form></span>
                 <h1 id="projected_name">IMG XXX</h1>
-                <button id="next_button" title="Show next image" onclick="next_image(true)" class="pull-right bigfont">&#x27F6;</button>
-                <button id="prev_button" title="Show previous image" onclick="prev_image(true)" class="bigfont">&#x27F5;</button>
+                <button id="next_button" title="Show next image" onclick="next_image(true)" class="pull-right bigfont">&#8594;</button>
+                <button id="prev_button" title="Show previous image" onclick="prev_image(true)" class="bigfont">&#8592;</button>
                 <img title="Use Arrow keys to change current image" id="projected" class="loading" />
                 <img class="cache" id="next_projected" />
                 <img class="cache" id="prev_projected" />
