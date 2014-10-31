@@ -77,7 +77,7 @@ button.busy {
     min-height: 10px;
     max-width: 90%;
     max-height: 90%;
-    transition-property: opacity;
+    transition-property: opacity, transform;
     transition-duration: 1000ms;
 }
 .cache {

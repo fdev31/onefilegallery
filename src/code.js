@@ -55,14 +55,22 @@ var _start_show = function() {
     slideshow_id = setTimeout( next_image, slideshow_delay );
 }
 var slideshow_button = function() {
+    var p = document.querySelector('#projected');
     if (slideshow_id) {
         clearTimeout(slideshow_id);
         slideshow_id = false;
         document.querySelector('#slide_button').innerHTML = '&#x25B6;';
+
+        p.style.transform = 'translate(0, 0) scale(1.0)';
     } else {
         document.querySelector('#slide_button').innerHTML = '&#x25FC;';
         next_image();
         slideshow_id = 1;
+        p.style.transform = 'translate(0, 0) scale(1.1)';
+        setTimeout( function() {
+            var o = p.offsetTop / 2;
+            p.style.transform = 'translate(0, -'+o+'px) scale(1.1)';
+        }, 300);
     }
 }
 
