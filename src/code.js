@@ -82,7 +82,7 @@ var view_image = function(obj, counter) {
     if ( document.querySelector('#projector').classList.contains('slide-down') ) {
         document.querySelector('div#container').style.visibility = 'hidden';
         DC('#projector', 'slide-down');
-        document.querySelector('#projected').src = '';
+        document.querySelector('#projected').src = pass + '/' + data[cur_image].t;
     }
     if (!!_image_setter) {
         clearTimeout(_image_setter )
