@@ -24,6 +24,18 @@ var AC = function(query, klass) {
     }
 };
 
+var QSA = function(query) {
+    return document.querySelectorAll(query);
+};
+
+var QS = function(query) {
+    return document.querySelector(query);
+};
+
+var CE = function(tag) {
+    return document.createElement(tag);
+}
+
 var switch_page = function(nr) {
     isotope.arrange({ filter: '.p'+nr });
     DCA('button', 'current');
@@ -54,7 +66,13 @@ var _start_show = function() {
     var slideshow_delay = Math.floor( parseFloat( document.querySelector('#delay').value )*1000 );
     slideshow_id = setTimeout( next_image, slideshow_delay );
 }
+var _slideshow_pressed = 0;
+
 var slideshow_button = function() {
+    if (_slideshow_pressed) {
+        clearTimeout(_slideshow_pressed);
+        _slideshow_pressed = 0;
+    }
     var p = document.querySelector('#projected');
     if (slideshow_id) {
         clearTimeout(slideshow_id);
@@ -62,10 +80,11 @@ var slideshow_button = function() {
         document.querySelector('#slide_button').innerHTML = '&#x25B6;';
 
         p.style.transform = 'translate(0, 0) scale(1.0)';
+        setTimeout(_set_image, 300);
     } else {
         document.querySelector('#slide_button').innerHTML = '&#x25FC;';
-        next_image();
         slideshow_id = 1;
+        _slideshow_pressed = setTimeout(next_image, 1300);
         p.style.transform = 'translate(0, 0) scale(1.1)';
         setTimeout( function() {
             var o = p.offsetTop / 2;
@@ -93,7 +112,9 @@ var view_image = function(obj, counter) {
 var next_image = function(user_action) {
     var user_action = user_action || false;
     if (user_action && !!slideshow_id) {
-        cur_image ++;
+        if (cur_image+1 < data.length)
+            cur_image ++;
+        slideshow_button();
     } else {
         if (cur_image+1 < data.length) {
             _set_left_image(pass + '/' + data[cur_image].f);
@@ -107,6 +128,7 @@ var next_image = function(user_action) {
             }, 10);
         } else {
             if (!! slideshow_id) {
+                _set_image();
                 slideshow_button();
             }
         }
@@ -116,7 +138,9 @@ var next_image = function(user_action) {
 var prev_image = function(user_action) {
     var user_action = user_action || false;
     if (user_action && !!slideshow_id) {
-        cur_image --;
+        if (cur_image > 0)
+            cur_image --;
+        slideshow_button();
     } else {
         if (cur_image > 0) {
             AC('#prev_button', 'busy');

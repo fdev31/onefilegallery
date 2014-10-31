@@ -11,10 +11,10 @@ all: 1ftn
 1ftn: src/_code.js  src/index.html  src/runner.py	src/_style.css compile
 	./compile
 
-src/_code.js: src/code.js
+src/_code.js: src/code.js Makefile
 	$(call jsmin , $<, $@)
 
-src/_style.css: src/style.css
+src/_style.css: src/style.css Makefile
 	$(call csslint, $<, tmp_)
 	$(call cssmin, tmp_, $@)
 	rm tmp_
