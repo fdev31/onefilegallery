@@ -11,6 +11,34 @@ Get [the file](./1ftn)
 
 - Isotope
 
+## Usage
+
+    usage: 1ftn [-h] [-o FOLDER] [-f] [-c] [-s SIZE] [-q QUALITY] FOLDER
+
+    Make HTML5 Photo gallery.
+
+    positional arguments:
+      FOLDER                folder with original images
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -o FOLDER, --output FOLDER
+                            destination folder
+      -f, --overwrite       overwrite files
+      -c, --copy            copy original images
+      -s SIZE, --resize SIZE
+                            resize original images when copying (give a maximum
+                            width or height in pixels, i.e: "1280") -- Implies
+                            "-c"
+      -q QUALITY, --quality QUALITY
+                            Output image quality in range [0-100] -- Useless with
+
+The program takes a FOLDER containing all the images you want to make the gallery from.
+Optionally specify another output (-o) folder and copy (-c) the images of the gallery eventually with a different size (-s).
+
+- A *.tn/* folder will be created + .js file + zip file + an *index.html* html file used as failsafe. 
+- The real gallery application is saved in the parent folder as *index.html* as well.
+
 ## Example
 
     foo% ./1ftn ~/Images/last_weekend -o /tmp/mygallery
