@@ -31,7 +31,7 @@ Get [the file](./1ftn)
                             width or height in pixels, i.e: "1280") -- Implies
                             "-c"
       -q QUALITY, --quality QUALITY
-                            Output image quality in range [0-100] -- Useless with
+                            Output image quality in range [0-100] -- Unused without "-s"
 
 The program takes a FOLDER containing all the images you want to make the gallery from.
 Optionally specify another output (-o) folder and copy (-c) the images of the gallery eventually with a different size (-s).
