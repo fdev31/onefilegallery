@@ -88,7 +88,10 @@ class PILHandler(BaseImageHandler):
     def _exif_rot(self, img):
         e = img._getexif()
         if e:
-            return e[274]
+            try:
+                return e[274]
+            except KeyError:
+                return 1
 
     @dontloadtwice
     def rotate(self, img, angle):
@@ -151,11 +154,15 @@ class ImageList:
             print('\r' + progress_maker(i, len(self.filenames)), end='')
             name = os.path.basename(fullpath)
             t_tn_path = os.path.join( tn_path, name )
-            if self.overwrite or not os.path.exists(t_tn_path):
-                rot = img_mgr.get_rotation( fullpath )
-                src_img = img_mgr.minify( fullpath )
-                src_img = img_mgr.rotate( src_img, rot)
-                img_mgr.save(src_img, t_tn_path, quality=60 )
+            try:
+                if self.overwrite or not os.path.exists(t_tn_path):
+                    rot = img_mgr.get_rotation( fullpath )
+                    src_img = img_mgr.minify( fullpath )
+                    src_img = img_mgr.rotate( src_img, rot)
+                    img_mgr.save(src_img, t_tn_path, quality=60 )
+            except Exception:
+                print("\nFATAL ERROR WHILE PROCESSING %s, aborting."%name)
+                raise
 
 class Output:
     path = None
