@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     isotope = new Isotope( container, {itemSelector: '.item',   isFitWidth: true, filter:'.p0'});
     pass = prompt("Password:");
 
-    document.querySelector('#dl_ref').attributes.href = pass+'/package.zip';
+    document.querySelector('#dl_ref').setAttribute('href','./'+ pass+'/package.zip');
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', './'+pass+'/images.js', true);
