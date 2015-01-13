@@ -2,6 +2,8 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
+
         <meta charset="utf-8"> 
         <title>Gallery</title>
         <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -16,8 +18,8 @@
     </head>
     <body>
         <div id="global_container">
-            <a id="dl_ref" class="bg_caption pull-right" href="">Download all files</a>
-            <div id="pages"><span class="bg_caption">Pages:</span></div>
+            <span class="pull-right"><h1><a id="dl_ref" title="Download all images" class="bg_caption" href="">&#9921;</a>&nbsp;<a class="bg_caption" href="#" title="Change current code" onclick="change_code()">&#9851;</a></h1></span>
+            <div id="pages"><span class="bg_caption">&#9755;</span><span id="page_list" /></div>
             <hr />
             <div id="container">
             </div>

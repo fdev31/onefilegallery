@@ -115,6 +115,7 @@ button.busy {
 }
 .bg_caption {
     color: #EEE;
+    text-decoration: none;
 }
 .bigfont {
     font-size: 200%;

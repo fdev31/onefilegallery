@@ -5,7 +5,7 @@ var pass = '';
 var page_size = 25;
 var cur_image = 0;
 var isotope = 0;
-var popup_delay = 3000;
+var popup_delay = 3000; // 3s delay for popups
 
 var _popups = [];
 var _cur_popup = 0;
@@ -16,12 +16,14 @@ function display_popup (content, opts) {
     var flush = !! opts.flush;
 
     if (_cur_popup != 0 && !flush) {
-        _popups.push(content)
+        _popups.push([content, opts])
     } else {
         var o = document.querySelector('#popup');
         o.innerHTML = content;
         o.classList.remove("slide-down");
-        _cur_popup = setTimeout(remove_popup, popup_delay);
+        if (!!!opts.stay) {
+            _cur_popup = setTimeout(remove_popup, popup_delay);
+        }
     }
 }
 
@@ -30,7 +32,7 @@ function remove_popup() {
     _cur_popup = 0;
     if (_popups.length != 0) {
         var content = _popups.pop();
-        display_popup( content );
+        display_popup( content[0], content[1] );
     } else {
         o.classList.add('slide-down');
     }
@@ -197,12 +199,11 @@ var close_projector = function() {
     if(slideshow_id) slideshow_button();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    var container = document.querySelector('#container');
+function start_process() {
+    var container = QS('#container');
     isotope = new Isotope( container, {itemSelector: '.item',   isFitWidth: true, filter:'.p0'});
-    pass = prompt("Password:");
 
-    document.querySelector('#dl_ref').setAttribute('href','./'+ pass+'/package.zip');
+    QS('#dl_ref').setAttribute('href','./'+ pass+'/package.zip');
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', './'+pass+'/images.js', true);
@@ -211,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
     xhr.onreadystatechange = function(e) {
         if (this.readyState == 4 && this.status == 200) {
             data = JSON.parse(this.responseText);
-            var pages = document.querySelector('#pages');
+            var pages = QS('#pages #page_list');
 
             if ( data.length > page_size ) {
                 for(var i=0; i<data.length; i=i+page_size) {
@@ -240,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.innerHTML = html.join('');
                 isotope.insert(e);
                 if ( data.length > page_size )
-                    document.querySelector('button').classList.add('current');
+                    QS('button').classList.add('current');
             }, 100);
             // ugly workaround of the death
             for (n=1;n<5;n++) {
@@ -255,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     xhr.send(null);
 
-    document.querySelector('#projected').onload = function(e) {
+    QS('#projected').onload = function(e) {
         DC('button.busy', 'busy');
         DC('#projected', 'loading');
         if(!!slideshow_id) {
@@ -295,8 +296,32 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
 
     };
-    if (expertise_level == 0) // may come in a cookie later
+    if (expertise_level == 0)
         display_popup('Welcome ! Click on an image to launch the viewer !');
+}
+
+function _start_bootstrap() {
+    pass = QS("#codepopup input").value;
+    start_process();
+    remove_popup();
+}
+
+function change_code() {
+    QS('#container').innerHTML = '';
+    QS('#page_list').innerHTML = '';
+    display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true});
+    QS('#codepopup input').focus();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    /*
+    pass = prompt("Password:");
+    start_process();
+   */
+
+    display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true});
+    QS('#codepopup input').focus();
+//    display_popup('Welcome ! Click on an image to launch the viewer !');
 
 });
 
