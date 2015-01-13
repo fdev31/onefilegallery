@@ -5,6 +5,36 @@ var pass = '';
 var page_size = 25;
 var cur_image = 0;
 var isotope = 0;
+var popup_delay = 3000;
+
+var _popups = [];
+var _cur_popup = 0;
+var expertise_level = 0; // user heuristic UI experience
+
+function display_popup (content, opts) {
+    var opts = opts || {};
+    var flush = !! opts.flush;
+
+    if (_cur_popup != 0 && !flush) {
+        _popups.push(content)
+    } else {
+        var o = document.querySelector('#popup');
+        o.innerHTML = content;
+        o.classList.remove("slide-down");
+        _cur_popup = setTimeout(remove_popup, popup_delay);
+    }
+}
+
+function remove_popup() {
+    var o = document.querySelector('#popup');
+    _cur_popup = 0;
+    if (_popups.length != 0) {
+        var content = _popups.pop();
+        display_popup( content );
+    } else {
+        o.classList.add('slide-down');
+    }
+}
 
 var DC = function(query, klass) {
     var q = document.querySelector(query);
@@ -97,6 +127,10 @@ var _image_setter = 0;
 
 /* only called when a click on the thumbnail image occurs */
 var view_image = function(obj, counter) {
+    if (expertise_level == 0) {
+        display_popup('Click on the "play" icon to start slideshow, you can use ARROWS and ESCAPE here');
+        expertise_level ++;
+    }
     cur_image = counter;
     if ( document.querySelector('#projector').classList.contains('slide-down') ) {
         document.querySelector('div#container').style.visibility = 'hidden';
@@ -214,6 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     isotope.arrange();
                 }, n*2*100);
             }
+        } else if(this.readyState == 4) {
+            display_popup("<h1>Error loading images</h1>Perhaps the password is incorrect.", {'flush': true});
         }
     };
 
@@ -259,6 +295,8 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
 
     };
+    if (expertise_level == 0) // may come in a cookie later
+        display_popup('Welcome ! Click on an image to launch the viewer !');
 
 });
 

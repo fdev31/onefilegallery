@@ -80,6 +80,22 @@ button.busy {
     transition-property: opacity, transform;
     transition-duration: 1000ms;
 }
+#popup {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    text-align: center;
+    background: rgba(200, 230, 190, 0.5);
+    padding: 1ex;
+    border: 3px solid #AAA;
+    color: white;
+    transition-property: top;
+    transition-duration: 230ms;
+    transition-timing-function: ease-in;
+    z-index: 42;
+    margin-left: -40ex;
+    width: 80ex;
+}
 .cache {
     display: block;
     width: 1px;
