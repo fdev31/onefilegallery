@@ -8,6 +8,7 @@
 
 - Python3
 - PIL (Imaging) or Pillow
+- jpegtran (optional, may enable a faster, lossless rescaling)
 
 ### Also using
 
