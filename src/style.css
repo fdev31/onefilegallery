@@ -124,3 +124,29 @@ button.busy {
 .loading {
     opacity: 0.0;
 }
+/* SVG sprite , used pyconizer for the svg */
+.icon_pack, .icon_hdd, .icon_cycle {
+    background-image: url(data:image/svg+xml;base64,{{{SVG_FILE}}});
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    transform: scale(0.6);
+}
+.icon_pack:hover, .icon_hdd:hover, .icon_cycle:hover {
+    transform: scale(1.0);
+    transition-duration: 400ms;
+}
+
+.icon_pack {
+    background-position: 0 0;
+}
+
+.icon_hdd {
+    background-position: 0 -64px;
+}
+
+.icon_cycle {
+    background-position: 0 -128px;
+}
+
