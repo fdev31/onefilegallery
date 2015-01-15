@@ -53,7 +53,7 @@ _svg_content = ["""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
         """]
 import re
 icon_names = []
-for i, svg in enumerate(f for f in os.listdir('/tmp/icons/') if f.endswith('svg')):
+for i, svg in enumerate(f for f in os.listdir('src/icons/') if f.endswith('svg')):
     icon_names.append(svg.rsplit('.', 1)[0])
     data = open(os.path.join('src/icons/', svg)).read()
     idx = data.index('<svg')
