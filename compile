@@ -6,10 +6,99 @@ import codecs
 PY = 'src/runner.py'
 MONO = '1ftn'
 
+# gen svg file
+_svg_content = ["""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64px"
+   viewBox="0 0 64 192"
+   height="192px"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="icons.svg">
+  <defs
+     id="defs19" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1918"
+     inkscape:window-height="1059"
+     id="namedview17"
+     showgrid="true"
+     inkscape:zoom="3.4766083"
+     inkscape:cx="-2.6513253"
+     inkscape:cy="86.715182"
+     inkscape:window-x="0"
+     inkscape:window-y="19"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3774" />
+  </sodipodi:namedview>
+        """]
+import re
+icon_names = []
+for i, svg in enumerate(f for f in os.listdir('/tmp/icons/') if f.endswith('svg')):
+    icon_names.append(svg.rsplit('.', 1)[0])
+    data = open(os.path.join('src/icons/', svg)).read()
+    idx = data.index('<svg')
+    data = data[idx:]
+    data = re.sub('xmlns.*', '', data)
+    data = re.sub('<svg', '<svg\ny="%d"'%(i*64), data)
+    _svg_content.append( data )
+_svg_content.append('</svg>')
+open('src/icons.svg', 'w').write('\n'.join(_svg_content))
+
+CSS_DEF = ['''%s {
+    background-image: url(data:image/svg+xml;base64,{{{SVG_FILE}}});
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    transform: scale(0.6);
+}'''%(', '.join('.%s'%s for s in icon_names))
+,
+'''%s {
+    transform: scale(1.0);
+    transition-duration: 400ms;
+}'''%(', '.join('.%s:hover'%s for s in icon_names))
+]
+for i, name in enumerate(icon_names):
+    CSS_DEF.append('''
+.%s {
+    background-position: 0 %spx;
+}'''%(name, str(-i*64))
+            )
+
+CSS = open('src/style.css').read()+('\n'.join(CSS_DEF))
+
+try:
+    import rcssmin
+except ImportError:
+    pass
+else:
+    CSS = rcssmin.cssmin(CSS)
+
 py_code = open(PY).read()
 py_code = py_code.replace('{{{HTML_FILE}}}', open('src/index.html').read())
-py_code = py_code.replace('{{{STYLE}}}', open('src/_style.css').read())
+py_code = py_code.replace('{{{STYLE}}}', CSS)
 py_code = py_code.replace('{{{JS_CODE}}}', open('src/_code.js').read())
+#end svg gen, write it
 py_code = py_code.replace('{{{SVG_FILE}}}', codecs.encode(open('src/icons.svg').read().encode('utf-8'), 'base64').decode().replace('\n', ''))
 open(MONO, 'w').write(py_code)
 os.chmod(MONO, 0o777)

@@ -195,8 +195,7 @@ class HTMLWriter(Writer):
             </head>
             <body>
             <a href="package.zip">Download all files</a><br/>
-            <div id="container">
-        """)
+            <div id="container">""")
 
         for i in self.images.infos:
             fd.write('<a href="%(f)s"><img src="%(t)s" /></a>\n'%i)
