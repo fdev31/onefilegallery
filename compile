@@ -70,6 +70,8 @@ CSS_DEF = ['''%s {
     display: inline-block;
     width: 64px;
     height: 64px;
+    z-index: 1;
+    margin-top: -16px;
     transform: scale(0.6);
 }'''%(', '.join('.%s'%s for s in icon_names))
 ,
