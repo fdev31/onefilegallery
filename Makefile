@@ -6,7 +6,7 @@ jsmin=python -m rjsmin < $1 > $2
 # jsmin=cat < $1 > $2
 # cssmin=cat < $1 > $2
 
-ICONS=src/icons/icon_cycle.svg src/icons/icon_hdd.svg src/icons/icon_pack.svg
+ICONS=$(wildcard src/icons/icon_*.svg)
 
 all: 1ftn
 
