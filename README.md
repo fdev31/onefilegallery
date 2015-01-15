@@ -1,7 +1,7 @@
 # A (faked) single file HTML5 image gallery
 
 * Test the [quick demo](http://devaux.fabien.free.fr/gal/) (code: "demo1")
-* Get [the file](./1ftn)
+* Get [the file](./1ftn) (or [here](https://raw.githubusercontent.com/fdev31/onefilegallery/master/1ftn), save with ".py" extension)
 
 
 ## Requirements
