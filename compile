@@ -7,7 +7,20 @@ PY = 'src/runner.py'
 MONO = '1ftn'
 
 # gen svg file
-_svg_content = ["""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+import re
+icon_names = []
+_svg_content = []
+for i, svg in enumerate(f for f in os.listdir('src/icons/') if f.endswith('svg')):
+    icon_names.append(svg.rsplit('.', 1)[0])
+    data = open(os.path.join('src/icons/', svg)).read()
+    idx = data.index('<svg')
+    data = data[idx:]
+    data = re.sub('xmlns.*', '', data)
+    data = re.sub('<svg', '<svg\ny="%d"'%(i*64), data)
+    _svg_content.append( data )
+_svg_content.append('</svg>')
+
+_svg_content.insert(0, """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -18,8 +31,8 @@ _svg_content = ["""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="64px"
-   viewBox="0 0 64 192"
-   height="192px"
+   viewBox="0 0 64 %(height)s"
+   height="%(height)dpx"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
@@ -50,18 +63,8 @@ _svg_content = ["""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
        type="xygrid"
        id="grid3774" />
   </sodipodi:namedview>
-        """]
-import re
-icon_names = []
-for i, svg in enumerate(f for f in os.listdir('src/icons/') if f.endswith('svg')):
-    icon_names.append(svg.rsplit('.', 1)[0])
-    data = open(os.path.join('src/icons/', svg)).read()
-    idx = data.index('<svg')
-    data = data[idx:]
-    data = re.sub('xmlns.*', '', data)
-    data = re.sub('<svg', '<svg\ny="%d"'%(i*64), data)
-    _svg_content.append( data )
-_svg_content.append('</svg>')
+        """%{'height': 64*len(icon_names)})
+
 open('src/icons.svg', 'w').write('\n'.join(_svg_content))
 
 CSS_DEF = ['''%s {
@@ -76,7 +79,7 @@ CSS_DEF = ['''%s {
 }'''%(', '.join('.%s'%s for s in icon_names))
 ,
 '''%s {
-    transform: scale(1.0);
+    transform: scale(0.75);
     transition-duration: 400ms;
 }'''%(', '.join('.%s:hover'%s for s in icon_names))
 ]

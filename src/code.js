@@ -109,12 +109,14 @@ var slideshow_button = function() {
     if (slideshow_id) {
         clearTimeout(slideshow_id);
         slideshow_id = false;
-        document.querySelector('#slide_button').innerHTML = '&#x25B6;';
+        document.querySelector('#slide_button').classList.remove('icon_stop');
+        document.querySelector('#slide_button').classList.add('icon_play');
 
         p.style.transform = 'translate(0, 0) scale(1.0)';
         setTimeout(_set_image, 300);
     } else {
-        document.querySelector('#slide_button').innerHTML = '&#x25FC;';
+        document.querySelector('#slide_button').classList.remove('icon_play');
+        document.querySelector('#slide_button').classList.add('icon_stop');
         slideshow_id = 1;
         _slideshow_pressed = setTimeout(next_image, 1300);
         p.style.transform = 'translate(0, 0) scale(1.1)';
