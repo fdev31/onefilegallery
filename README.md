@@ -1,6 +1,8 @@
 # A (faked) single file HTML5 image gallery
 
-Get [the file](./1ftn)
+* Test the [quick demo](http://devaux.fabien.free.fr/gal/) (code: "demo1")
+* Get [the file](./1ftn)
+
 
 ## Requirements
 
