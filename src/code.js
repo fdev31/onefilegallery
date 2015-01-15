@@ -302,8 +302,8 @@ function start_process() {
         display_popup('Welcome ! Click on an image to launch the viewer !');
 }
 
-function _start_bootstrap() {
-    pass = QS("#codepopup input").value;
+function _start_bootstrap(code) {
+    pass = code || QS("#codepopup input").value;
     start_process();
     remove_popup();
 }
@@ -315,14 +315,29 @@ function change_code() {
     QS('#codepopup input').focus();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    /*
-    pass = prompt("Password:");
-    start_process();
-   */
+var default_configuration = {}
 
-    display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true});
-    QS('#codepopup input').focus();
+document.addEventListener('DOMContentLoaded', function() {
+
+  /* set configuration from query string <URL>#key=value[,key2=value2,...]*/
+  var options = document.location.href.match('.*#(.*)');
+
+  if(!!options) {
+      options = options[1].split(/ *,/);
+      var tmp=null;
+      for(var i=0; i<options.length; i++) {
+          tmp = options[i].split(/=/);
+          default_configuration[tmp[0]] = tmp[1]
+      }
+  }
+  /* Start automatically or ask the user for a code */
+  if(!!!default_configuration.code) {
+      display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true});
+      QS('#codepopup input').focus();
+  } else {
+      _start_bootstrap(default_configuration.code);
+  }
+
 //    display_popup('Welcome ! Click on an image to launch the viewer !');
 
 });
