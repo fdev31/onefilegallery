@@ -216,20 +216,16 @@ function start_process() {
             data = JSON.parse(this.responseText);
             var pages = QS('#pages #page_list');
 
-            if ( data.length > page_size ) {
-                for(var i=0; i<data.length; i=i+page_size) {
-                    var p=i/page_size;
-                    var btn = document.createElement('button');
-                    btn.onclick = function() {
-                        var page = p;
-                        return function() {switch_page(page)};
-                    }();
-                    btn.innerHTML = '&nbsp;'+(p+1)+'&nbsp;';
-                    pages.appendChild( btn );
-                };
-            } else {
-                pages.style.visibility = 'hidden';
-            }
+            for(var i=0; i<data.length; i=i+page_size) {
+                var p=i/page_size;
+                var btn = document.createElement('button');
+                btn.onclick = function() {
+                    var page = p;
+                    return function() {switch_page(page)};
+                }();
+                btn.innerHTML = '&nbsp;'+(p+1)+'&nbsp;';
+                pages.appendChild( btn );
+            };
             var html = [];
             var d = {};
             var counter = 0;
@@ -252,7 +248,7 @@ function start_process() {
                 }, n*2*100);
             }
         } else if(this.readyState == 4) {
-            display_popup("<h1>Error loading images</h1>Perhaps the password is incorrect.", {'flush': true});
+            display_popup("<h1>Error loading images</h1>Perhaps the code is incorrect.", {'flush': true});
         }
     };
 
@@ -303,9 +299,9 @@ function start_process() {
 }
 
 function _start_bootstrap(code) {
+    remove_popup();
     pass = code || QS("#codepopup input").value;
     start_process();
-    remove_popup();
 }
 
 function change_code() {

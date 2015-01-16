@@ -40,24 +40,25 @@ button {
     padding: 5px;
 }
 button:hover {
-    border-color: #3E3;
+    border-color: #EA3;
     transition-duration: 300ms;
     transform: scale(1.25);
 }
 button.current {
-    color: #3E3;
+    color: #EA3;
 }
 hr {
     margin: .5ex auto 0 auto;
     width: 50%;
 }
 input#delay {
-    background-color: #E3E3E3;
     border-radius: 3px;
-    border: 1px solid #BBB;
     float: left;
-    font-size: 170%;
-    margin-top: 0.1ex;
+    font-size: 150%;
+    background-color: white;
+    padding: 0.4ex 0px 0px;
+    text-align: center;
+    border: medium none;
 }
 button.busy {
     color: orange;
@@ -102,6 +103,9 @@ button.busy {
     z-index: 42;
     margin-left: -40ex;
     width: 80ex;
+}
+#popup h1 {
+    color: #333;
 }
 .cache {
     display: block;
