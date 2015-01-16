@@ -100,6 +100,16 @@ var _start_show = function() {
 }
 var _slideshow_pressed = 0;
 
+function show(list) {
+    for (var i=0; i < list.length; i++) {
+        QS(list[i]).style.visibility = "";
+    }
+}
+function hide(list) {
+    for (var i=0; i < list.length; i++) {
+        QS(list[i]).style.visibility = "hidden";
+    }
+}
 var slideshow_button = function() {
     if (_slideshow_pressed) {
         clearTimeout(_slideshow_pressed);
@@ -109,14 +119,16 @@ var slideshow_button = function() {
     if (slideshow_id) {
         clearTimeout(slideshow_id);
         slideshow_id = false;
-        document.querySelector('#slide_button').classList.remove('icon_stop');
-        document.querySelector('#slide_button').classList.add('icon_play');
+        show(['#projected_name', '#next_button', '#prev_button']);
+        QS('#slide_button').classList.remove('icon_stop');
+        QS('#slide_button').classList.add('icon_play');
 
         p.style.transform = 'translate(0, 0) scale(1.0)';
         setTimeout(_set_image, 300);
     } else {
-        document.querySelector('#slide_button').classList.remove('icon_play');
-        document.querySelector('#slide_button').classList.add('icon_stop');
+        hide(['#projected_name', '#next_button', '#prev_button']);
+        QS('#slide_button').classList.remove('icon_play');
+        QS('#slide_button').classList.add('icon_stop');
         slideshow_id = 1;
         _slideshow_pressed = setTimeout(next_image, 1300);
         p.style.transform = 'translate(0, 0) scale(1.1)';
