@@ -18,7 +18,7 @@ function display_popup (content, opts) {
     if (_cur_popup != 0 && !flush) {
         _popups.push([content, opts])
     } else {
-        var o = document.querySelector('#popup');
+        var o = QS('#popup');
         o.innerHTML = content;
         o.classList.remove("slide-down");
         if (!!!opts.stay) {
@@ -28,7 +28,7 @@ function display_popup (content, opts) {
 }
 
 function remove_popup() {
-    var o = document.querySelector('#popup');
+    var o = QS('#popup');
     _cur_popup = 0;
     if (_popups.length != 0) {
         var content = _popups.pop();
@@ -71,31 +71,31 @@ var CE = function(tag) {
 var switch_page = function(nr) {
     isotope.arrange({ filter: '.p'+nr });
     DCA('button', 'current');
-    document.querySelectorAll('button')[nr].classList.add('current');
+    QSA('button')[nr].classList.add('current');
 }
 
 var _set_left_image = function(url) {
     setTimeout( function() {
-        document.querySelector('#prev_projected').src = url;
+        QS('#prev_projected').src = url;
     }, 550);
 }
 var _set_right_image = function(url) {
     setTimeout( function() {
-        document.querySelector('#next_projected').src = url;
+        QS('#next_projected').src = url;
     }, 500);
 }
 var _set_image = function() {
     _image_setter = 0;
-    document.querySelector('#projected').src = pass + '/' + data[cur_image].f;
+    QS('#projected').src = pass + '/' + data[cur_image].f;
     var txt = data[cur_image].f.replace(/.*[/]/, '');
     txt += ' ('+(1+cur_image)+'/'+data.length+')';
-    document.querySelector('#projected_name').textContent = txt;
+    QS('#projected_name').textContent = txt;
 }
 
 var slideshow_id = false;
 
 var _start_show = function() {
-    var slideshow_delay = Math.floor( parseFloat( document.querySelector('#delay').value )*1000 );
+    var slideshow_delay = Math.floor( parseFloat( QS('#delay').value )*1000 );
     slideshow_id = setTimeout( next_image, slideshow_delay );
 }
 var _slideshow_pressed = 0;
@@ -115,7 +115,7 @@ var slideshow_button = function() {
         clearTimeout(_slideshow_pressed);
         _slideshow_pressed = 0;
     }
-    var p = document.querySelector('#projected');
+    var p = QS('#projected');
     if (slideshow_id) {
         clearTimeout(slideshow_id);
         slideshow_id = false;
@@ -148,10 +148,10 @@ var view_image = function(obj, counter) {
         expertise_level ++;
     }
     cur_image = counter;
-    if ( document.querySelector('#projector').classList.contains('slide-down') ) {
-        document.querySelector('div#container').style.visibility = 'hidden';
+    if ( QS('#projector').classList.contains('slide-down') ) {
+        QS('div#container').style.visibility = 'hidden';
         DC('#projector', 'slide-down');
-        document.querySelector('#projected').src = pass + '/' + data[cur_image].t;
+        QS('#projected').src = pass + '/' + data[cur_image].t;
     }
     if (!!_image_setter) {
         clearTimeout(_image_setter )
@@ -168,7 +168,7 @@ var next_image = function(user_action) {
     } else {
         if (cur_image+1 < data.length) {
             _set_left_image(pass + '/' + data[cur_image].f);
-            document.querySelector('#next_button').classList.add('busy');
+            QS('#next_button').classList.add('busy');
             setTimeout( function() {
                 cur_image++;
                 _set_image();
@@ -208,7 +208,7 @@ var prev_image = function(user_action) {
 
 var close_projector = function() {
     AC('#projector','slide-down');
-    document.querySelector('div#container').style.visibility = 'visible';
+    QS('div#container').style.visibility = 'visible';
     AC('#projected','loading');
     if(slideshow_id) slideshow_button();
 }
@@ -233,7 +233,7 @@ function start_process() {
 
             for(var i=0; i<data.length; i=i+page_size) {
                 var p=i/page_size;
-                var btn = document.createElement('button');
+                var btn = CE('button');
                 btn.onclick = function() {
                     var page = p;
                     return function() {switch_page(page)};
@@ -259,7 +259,7 @@ function start_process() {
                 counter++;
             };
             setTimeout( function() {
-                var e = document.createElement('div');
+                var e = CE('div');
                 e.innerHTML = html.join('');
                 isotope.insert(e);
                 if ( data.length > page_size )
