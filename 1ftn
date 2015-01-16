@@ -300,6 +300,8 @@ if __name__ == "__main__":
     print("Listing...")
     images  = ImageList(args.input, overwrite=args.overwrite)
     out = Output(args.output or args.input)
+    if not os.path.exists(out.path):
+        os.makedirs(out.path)
     print("\nWriting web page")
     w = HTMLWriter(images, out)
     w.write()
