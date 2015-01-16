@@ -121,8 +121,8 @@ var slideshow_button = function() {
         _slideshow_pressed = setTimeout(next_image, 1300);
         p.style.transform = 'translate(0, 0) scale(1.1)';
         setTimeout( function() {
-            var o = p.offsetTop / 2;
-            p.style.transform = 'translate(0, -'+o+'px) scale(1.1)';
+//            var o = (p.offsetTop / 2);
+            p.style.transform = 'translate(0, -16px) scale(1.1)';
         }, 300);
     }
 }

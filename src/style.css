@@ -79,6 +79,8 @@ button.busy {
 }
 #projected {
     display: block;
+    position: relative;
+    top: -64px; /* cover left & right icons */
     margin: auto auto 0 auto;
     min-width: 10px;
     min-height: 10px;
