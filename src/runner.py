@@ -136,7 +136,7 @@ class ImageList:
             print('\r' + progress_maker(i, len(files)), end='')
             fullpath = os.path.join(path, name)
             filenames.append(fullpath)
-            infos.append(dict(t='tn/'+name, f=name))
+            infos.append(dict(t='tn/'+name, f=name, s=os.stat(fullpath).st_size)) # more info to come ?
         print('\r' + progress_maker(len(files), len(files)), end='')
         self.filenames = filenames
         self.infos = infos
@@ -180,7 +180,9 @@ class Writer:
 class JSONWriter(Writer):
     def write(self, index='images.js'):
         import json
-        json.dump(self.images.infos, self.out.open_file(index))
+        c = list(self.images.infos[0].keys())
+        r = [list(i.values()) for i in self.images.infos]
+        json.dump({'c': c, 'r': r, 'version': 1}, self.out.open_file(index))
 
 class HTMLWriter(Writer):
 

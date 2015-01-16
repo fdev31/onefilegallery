@@ -214,6 +214,9 @@ function start_process() {
     xhr.onreadystatechange = function(e) {
         if (this.readyState == 4 && this.status == 200) {
             data = JSON.parse(this.responseText);
+            if (!!data.version) { /* only version 0 (flat) & v1 is supported */
+                data = uncompress_resources(data);
+            }
             var pages = QS('#pages #page_list');
 
             for(var i=0; i<data.length; i=i+page_size) {
@@ -231,7 +234,16 @@ function start_process() {
             var counter = 0;
             for (var i in data) {
                 d = data[i];
-                html.push('<div class="item p'+Math.floor(counter/page_size)+'" ><img class="tn" onclick="view_image(this, '+counter+')" src="'+pass+'/'+d.t+'" ></img></div>');
+                if(!!!d.s) {
+                    var size = '';
+                } else {
+                    if(d.s > 1100000) {
+                        var size ="&nbsp;" + (Math.floor(d.s / 1000)/1000.0) + " MB";
+                    } else {
+                        var size = "&nbsp;" + Math.floor(d.s / 1000) + " kB";
+                    }
+                }
+                html.push('<div title="'+d.f+size+'" class="item p'+Math.floor(counter/page_size)+'" ><img class="tn" onclick="view_image(this, '+counter+')" src="'+pass+'/'+d.t+'" ></img></div>');
                 counter++;
             };
             setTimeout( function() {
@@ -310,6 +322,29 @@ function change_code() {
     display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true});
     QS('#codepopup input').focus();
 }
+
+
+function uncompress_resources(keys_values_array) {
+/*
+ * IN:  { 'c': ['link', 'age'], 'r': [ ['toto', 1], ['tata', 4], ['titi', 42] ] }
+ *
+ * OUT: [ {'link': 'toto', 'age': 1}, {'name': 'tata', 'age': 4}, {'name': 'titi', 'age': 42} ]
+ */
+    var keys = keys_values_array.c;
+    var list_of_values = keys_values_array.r;
+    var ret = [];
+
+    for (var i=0; i<list_of_values.length; i++) {
+        var values = list_of_values[i];
+        var item = {};
+        for (var pid=0; pid<keys.length; pid++) {
+            item[ keys[pid] ] = values[pid];
+        }
+        ret.push( item );
+    }
+    return ret;
+};
+
 
 var default_configuration = {}
 
