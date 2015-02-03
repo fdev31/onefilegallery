@@ -217,6 +217,7 @@ function start_process() {
     var container = QS('#container');
     isotope = new Isotope( container, {itemSelector: '.item',   isFitWidth: true, filter:'.p0'});
 
+    QS('#dl_ref').style.visibility = "hidden";
     QS('#dl_ref').setAttribute('href','./'+ pass+'/package.zip');
 
     var xhr = new XMLHttpRequest();
@@ -258,6 +259,8 @@ function start_process() {
                 html.push('<div title="'+d.f+size+'" class="item p'+Math.floor(counter/page_size)+'" ><img class="tn" onclick="view_image(this, '+counter+')" src="'+pass+'/'+d.t+'" ></img></div>');
                 counter++;
             };
+
+
             setTimeout( function() {
                 var e = CE('div');
                 e.innerHTML = html.join('');
@@ -271,8 +274,11 @@ function start_process() {
                     isotope.arrange();
                 }, n*2*100);
             }
+
+            QS('#dl_ref').style.visibility = "visible";
         } else if(this.readyState == 4) {
             display_popup("<h1>Error loading images</h1>Perhaps the code is incorrect.", {'flush': true});
+            QS('#dl_ref').style.visibility = "hidden";
         }
     };
 

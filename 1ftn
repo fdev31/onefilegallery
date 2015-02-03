@@ -242,10 +242,11 @@ var prev_image=function(user_action){var user_action=user_action||false;if(user_
 cur_image--;slideshow_button();}else{if(cur_image>0){AC('#prev_button','busy');setTimeout(function(){_set_right_image(pass+'/'+data[cur_image].f);cur_image--;if(cur_image>0){_set_left_image(pass+'/'+data[cur_image-1].f);}
 _set_image();},10);}}}
 var close_projector=function(){AC('#projector','slide-down');QS('div#container').style.visibility='visible';AC('#projected','loading');if(slideshow_id)slideshow_button();}
-function start_process(){var container=QS('#container');isotope=new Isotope(container,{itemSelector:'.item',isFitWidth:true,filter:'.p0'});QS('#dl_ref').setAttribute('href','./'+pass+'/package.zip');var xhr=new XMLHttpRequest();xhr.open('GET','./'+pass+'/images.js',true);xhr.overrideMimeType('text/javascript; charset=utf-8');xhr.onreadystatechange=function(e){if(this.readyState==4&&this.status==200){data=JSON.parse(this.responseText);if(!!data.version){data=uncompress_resources(data);}
+function start_process(){var container=QS('#container');isotope=new Isotope(container,{itemSelector:'.item',isFitWidth:true,filter:'.p0'});QS('#dl_ref').style.visibility="hidden";QS('#dl_ref').setAttribute('href','./'+pass+'/package.zip');var xhr=new XMLHttpRequest();xhr.open('GET','./'+pass+'/images.js',true);xhr.overrideMimeType('text/javascript; charset=utf-8');xhr.onreadystatechange=function(e){if(this.readyState==4&&this.status==200){data=JSON.parse(this.responseText);if(!!data.version){data=uncompress_resources(data);}
 var pages=QS('#pages #page_list');for(var i=0;i<data.length;i=i+page_size){var p=i/page_size;var btn=CE('button');btn.onclick=function(){var page=p;return function(){switch_page(page)};}();btn.innerHTML='&nbsp;'+(p+1)+'&nbsp;';pages.appendChild(btn);};var html=[];var d={};var counter=0;for(var i in data){d=data[i];if(!!!d.s){var size='';}else{if(d.s>1100000){var size="&nbsp;"+(Math.floor(d.s/1000)/1000.0)+" MB";}else{var size="&nbsp;"+Math.floor(d.s/1000)+" kB";}}
 html.push('<div title="'+d.f+size+'" class="item p'+Math.floor(counter/page_size)+'" ><img class="tn" onclick="view_image(this, '+counter+')" src="'+pass+'/'+d.t+'" ></img></div>');counter++;};setTimeout(function(){var e=CE('div');e.innerHTML=html.join('');isotope.insert(e);if(data.length>page_size)
-QS('button').classList.add('current');},100);for(n=1;n<5;n++){setTimeout(function(){isotope.arrange();},n*2*100);}}else if(this.readyState==4){display_popup("<h1>Error loading images</h1>Perhaps the code is incorrect.",{'flush':true});}};xhr.send(null);QS('#projected').onload=function(e){DC('button.busy','busy');DC('#projected','loading');if(!!slideshow_id){_start_show();}};document.onkeydown=function(e){switch(e.which){case 27:if(!!slideshow_id){slideshow_button();}else{close_projector();}
+QS('button').classList.add('current');},100);for(n=1;n<5;n++){setTimeout(function(){isotope.arrange();},n*2*100);}
+QS('#dl_ref').style.visibility="visible";}else if(this.readyState==4){display_popup("<h1>Error loading images</h1>Perhaps the code is incorrect.",{'flush':true});QS('#dl_ref').style.visibility="hidden";}};xhr.send(null);QS('#projected').onload=function(e){DC('button.busy','busy');DC('#projected','loading');if(!!slideshow_id){_start_show();}};document.onkeydown=function(e){switch(e.which){case 27:if(!!slideshow_id){slideshow_button();}else{close_projector();}
 break;case 37:prev_image(true);break;case 38:prev_image(true);break;case 39:next_image(true);break;case 40:next_image(true);break;default:return;}
 e.preventDefault();};if(expertise_level==0)
 display_popup('Welcome ! Click on an image to launch the viewer !');}
@@ -261,7 +262,7 @@ if(!!!default_configuration.code){display_popup('<form action="#" onsubmit="_sta
     </head>
     <body>
         <div id="global_container">
-            <span class="pull-right"><h1><a id="dl_ref" title="Download all images" class="bg_caption" href=""><div class="icon_hdd" ></div></a>&nbsp;<a class="bg_caption" href="#" title="Change current code" onclick="change_code()"><div class="icon_cycle" ></div></a></h1></span>
+            <span class="pull-right"><h1><a id="dl_ref" style="visibility:hidden;" title="Download all images" class="bg_caption" href=""><div class="icon_hdd" ></div></a>&nbsp;<a class="bg_caption" href="#" title="Change current code" onclick="change_code()"><div class="icon_cycle" ></div></a></h1></span>
             <div id="pages"><span class="bg_caption"><span id="page_list" /></div>
             <hr />
             <div id="container">
