@@ -15,7 +15,7 @@ for line in open('%s.theme'%THEME_NAME):
     if not line or line[0] == '#':
         continue
     try:
-        name, value = (x.strip() for x in line.split(':'))
+        name, value = (x.strip() for x in line.split(':', 1))
     except Exception:
         print("Unable to parse %r"%line)
     else:
