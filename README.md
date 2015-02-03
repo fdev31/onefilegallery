@@ -18,7 +18,6 @@
 
 ## TODO
 
-- Theme/Color scheme support
 - Cutomizable image per page
 
 ## Requirements
