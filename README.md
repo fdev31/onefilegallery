@@ -76,6 +76,37 @@ Now copy the */tmp/mygallery* folder and the */tmp/index.html* file to a webserv
 
 You will be prompted for a password, it must match the folder name.
 
+# Sharing
+
+If you copied **index.html** and **mygallery** folder to some webserver (in the *prefix* folder), you can share two links:
+
+    http://myserver.com/prefix/
+
+or
+
+    http://myserver.com/prefix/#code=mygallery
+
+
+The first example will ask for the code while the second one won't.
+
+
+# File hierarchy
+
+    index.html <-- the main application
+    mygallery/
+             image1.jpg
+             image2.jpg
+             image3.jpg
+             ...
+             package.zip
+             images.js
+             .tn/
+                 index.html <-- a failsafe page
+                 image1.jpg
+                 image2.jpg
+                 image3.jpg
+                 ...
+
 # Roadmap
 
 - use same loop for thumbnails & copy (will run slightly faster)
