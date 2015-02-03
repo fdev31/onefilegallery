@@ -93,9 +93,10 @@ The first example will ask for the code while the second one won't.
 
 # Customizing
 
-Edit the **default.theme** file and type `make reskin`, you don't need any optional dependency to do this.
-
-Enjoy your new **1ftn** program !
+1. Download [the code](./archive/master.zip)
+1. Edit the [default.theme](./blob/master/default.theme) file
+1. Type `make reskin` (you don't need any optional dependency to do this)
+1.  Enjoy your new **1ftn** program ! If you'r unhappy, jump to step 2 !
 
 
 # File hierarchy
