@@ -223,6 +223,9 @@ if __name__ == "__main__":
 
     print("Listing...")
     images  = ImageList(args.input, overwrite=args.overwrite)
+    if len(images) == 0:
+        print('\nError: No image found.')
+        raise SystemExit(1)
     out = Output(args.output or args.input)
     if not os.path.exists(out.path):
         os.makedirs(out.path)
