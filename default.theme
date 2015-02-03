@@ -1,0 +1,25 @@
+# Change colors here:
+
+BACKGROUND_COLOR: #334
+HIGHLIGHT_TN_BORDER: solid 3px #fcc
+TN_BORDER: solid 3px #CCC
+
+# Page buttons
+
+BUT_COLOR: #555
+BUT_BORDER: solid 3px #FEF
+BUT_TEXT: rgb(150, 150, 250)
+BUT_TEXT_SHADOW: #333
+ACTIVE_COLOR: #FBA
+
+# Popup window
+
+POPUP_BACKGROUND: rgba(255, 255, 255, 0.8)
+POPUP_BORDER: 3px solid #AAA
+
+# Viewer
+
+BUSY_COLOR: yellow
+PICTURE_TITLE: #999
+PROJ_BACKGROUND: #333
+

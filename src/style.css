@@ -1,5 +1,5 @@
 body {
-    background: #333;
+    background: [[BACKGROUND_COLOR]];
     margin: 0;
     padding: 0;
     font-family: 'PT Sans', sans-serif;
@@ -10,11 +10,11 @@ body {
 img {
     border: none;
     margin: 1ex;
-    border: solid 3px #555;
+    border: [[TN_BORDER]];
     border-radius: 3px;
 }
 img.tn:hover {
-    border: solid 3px #EEE;
+    border: [[HIGHLIGHT_TN_BORDER]];
     transform: scale(1.2);
     z-index: 3;
     transition-duration: 300ms;
@@ -24,28 +24,28 @@ a {
 }
 h1 {
     margin: 0;
-    color: #DDE;
+    color: [[PICTURE_TITLE]];
 }
 button {
     font: bold 20px/1 "helvetica neue", helvetica, arial, sans-serif;
     margin: 2px 1ex;
     text-align: center;
-    text-shadow: 0 1px 0 #fff;
+    text-shadow: 0 3px 0 [[BUT_TEXT_SHADOW]];
     cursor: pointer;
-    color: white;
-    background: #555;
-    border: solid 3px white;
+    color: [[BUT_TEXT]];
+    background: [[BUT_COLOR]];
+    border: [[BUT_BORDER]];
     border-radius: 3px;
     margin-right: 1ex;
     padding: 5px;
 }
 button:hover {
-    border-color: #EA3;
+    border-color: [[ACTIVE_COLOR]];
     transition-duration: 300ms;
     transform: scale(1.25);
 }
 button.current {
-    color: #EA3;
+    color: [[ACTIVE_COLOR]];
 }
 hr {
     margin: .5ex auto 0 auto;
@@ -61,7 +61,7 @@ input#delay {
     border: medium none;
 }
 button.busy {
-    color: orange;
+    color: [[BUSY_COLOR]];
 }
 #projector {
     position: fixed;
@@ -69,7 +69,7 @@ button.busy {
     left: 0;
     width: 98%;
     height: 98%;
-    background-color: rgb(28, 35, 42);
+    background-color: [[PROJ_BACKGROUND]];
     margin: 0;
     padding: 1%;
     z-index: 3;
@@ -94,9 +94,9 @@ button.busy {
     left: 50%;
     top: 50%;
     text-align: center;
-    background: rgba(255, 255, 255, 0.8);
+    background: [[POPUP_BACKGROUND]];
     padding: 1ex;
-    border: 3px solid #AAA;
+    border: [[POPUP_BORDER]];
     color: black;
     font-weight: bold;
     transition-property: top;
@@ -105,9 +105,6 @@ button.busy {
     z-index: 42;
     margin-left: -40ex;
     width: 80ex;
-}
-#popup h1 {
-    color: #333;
 }
 .cache {
     display: block;
@@ -125,7 +122,6 @@ button.busy {
     float: right;
 }
 .bg_caption {
-    color: #EEE;
     text-decoration: none;
 }
 .bigfont {

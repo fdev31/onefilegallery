@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+import os
+import codecs
+
+THEME_NAME='default'
+FILE='1ftn'
+
+TEXT = open(FILE).read()
+
+COLOR_MAP = {}
+
+for line in open('%s.theme'%THEME_NAME):
+    line = line.strip()
+    if not line or line[0] == '#':
+        continue
+    try:
+        name, value = (x.strip() for x in line.split(':'))
+    except Exception:
+        print("Unable to parse %r"%line)
+    else:
+        COLOR_MAP[name] = value
+
+for attr in COLOR_MAP.keys():
+    TEXT = TEXT.replace('[[%s]]'%attr, COLOR_MAP[attr])
+
+open(FILE, 'w').write(TEXT)
+

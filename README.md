@@ -14,6 +14,7 @@
 - **Protected**, you need to know a code to display the gallery
 - No installation required, copy the **single file** on your disk and run
 - Optionally resizes your images (e.g. scale down you digital camera pictures)
+- Small ! (<50k uncompressed, ~15k GZipped)
 
 ## TODO
 
@@ -24,7 +25,7 @@
 
 - Python (2 or 3)
 - PIL (Imaging) or Pillow
-- jpegtran (optional, may enable a faster, lossless rescaling)
+- [jpegtran](https://github.com/jbaiter/jpegtran-cffi) (optional, may enable a faster, lossless rescaling)
 
 ### Also using
 
@@ -90,6 +91,12 @@ or
 
 The first example will ask for the code while the second one won't.
 
+# Customizing
+
+Edit the **default.theme** file and type `make reskin`, you don't need any optional dependency to do this.
+
+Enjoy your new **1ftn** program !
+
 
 # File hierarchy
 
@@ -111,3 +118,23 @@ The first example will ask for the code while the second one won't.
 # Roadmap
 
 - use same loop for thumbnails & copy (will run slightly faster)
+
+# Troubleshooting
+
+## I can't compile it
+
+If `make` fails, try changing a few lines in the *Makefile*:
+
+    # uncomment to ease debug:
+    jsmin=cat < $1 > $2
+
+(remove the leading `# ` in the jsmin line)
+
+## I can't run it
+
+Install Imaging or Pillow (python package) in your distribution, example:
+
+    yum install python-imaging # fedora
+    pacman -Syu python-pillow # archlinux
+    apt-get install imaging # debian / ubuntu
+
