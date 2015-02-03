@@ -28,7 +28,7 @@
 
 ### Also using
 
-- Isotope
+- Isotope (without jQuery)
 
 ## Usage
 
