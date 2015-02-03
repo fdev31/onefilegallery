@@ -3,10 +3,25 @@
 * Test the [quick demo](http://devaux.fabien.free.fr/gal/) (code: "demo1")
 * Get [the file](./1ftn) (or [here](https://raw.githubusercontent.com/fdev31/onefilegallery/master/1ftn), save with ".py" extension)
 
+## Features
+
+- Generate simple & beautiful but **static** image galleries (no PHP, no CGI, ...)
+- Auto-rotates pictures according to **EXIF** metadata
+- Generates **thumbnails** for a faster display
+- Configurable **slideshow**
+- Images are **preloaded** for smoother slideshow
+- **Protected**, you need to know a code to display the gallery
+- No installation required, copy the **single file** on your disk and run
+- Optionally resizes your images (e.g. scale down you digital camera pictures)
+
+## TODO
+
+- Theme/Color scheme support
+- Cutomizable image per page
 
 ## Requirements
 
-- Python3
+- Python (2 or 3)
 - PIL (Imaging) or Pillow
 - jpegtran (optional, may enable a faster, lossless rescaling)
 
