@@ -92,7 +92,7 @@ class PILHandler(BaseImageHandler):
 
     def _exif_rot(self, img):
         e = img._getexif()
-        if e:
+        if e and 274 in e:
             return e[274]
 
     @dontloadtwice
