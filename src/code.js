@@ -24,11 +24,14 @@ function display_popup (content, opts) {
         if (!!!opts.stay) {
             _cur_popup = setTimeout(remove_popup, popup_delay);
         }
+        if( !!opts.onshow )
+            opts.onshow();
     }
 }
 
 function remove_popup() {
     var o = QS('#popup');
+    clearTimeout(_cur_popup);
     _cur_popup = 0;
     if (_popups.length != 0) {
         var content = _popups.pop();
@@ -279,6 +282,7 @@ function start_process() {
         } else if(this.readyState == 4) {
             display_popup("<h1>Error loading images</h1>Perhaps the code is incorrect.", {'flush': true});
             QS('#dl_ref').style.visibility = "hidden";
+            change_code();
         }
     };
 
@@ -337,8 +341,9 @@ function _start_bootstrap(code) {
 function change_code() {
     QS('#container').innerHTML = '';
     QS('#page_list').innerHTML = '';
-    display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true});
-    QS('#codepopup input').focus();
+    display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true,
+                  onshow: function() { QS('#codepopup input').focus() }
+    });
 }
 
 
