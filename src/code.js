@@ -16,7 +16,8 @@ function display_popup (content, opts) {
     var flush = !! opts.flush;
 
     if (_cur_popup != 0 && !flush) {
-        _popups.push([content, opts])
+        if ( _popups.length > 0 && content != _popups[_popups.length-1][0] )
+            _popups.push([content, opts])
     } else {
         var o = QS('#popup');
         o.innerHTML = content;
@@ -170,7 +171,8 @@ var next_image = function(user_action) {
         slideshow_button();
     } else {
         if (cur_image+1 < data.length) {
-            _set_left_image(pass + '/' + data[cur_image].f);
+            if (cur_image > 0)
+                _set_left_image(pass + '/' + data[cur_image].f);
             QS('#next_button').classList.add('busy');
             setTimeout( function() {
                 cur_image++;
@@ -183,6 +185,8 @@ var next_image = function(user_action) {
             if (!! slideshow_id) {
                 _set_image();
                 slideshow_button();
+            } else {
+                display_popup('<button id="replaybut" onclick="cur_image = -1; next_image()">Replay</button>');
             }
         }
     }
@@ -190,6 +194,8 @@ var next_image = function(user_action) {
 
 var prev_image = function(user_action) {
     var user_action = user_action || false;
+    if ( !! QS('#replaybut') )
+        remove_popup();
     if (user_action && !!slideshow_id) {
         if (cur_image > 0)
             cur_image --;
