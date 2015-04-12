@@ -20,6 +20,7 @@ reskin:
 	./themify
 
 src/_code.js: src/code.js Makefile
+#     cp $< $@
 	$(call jsmin , $<, $@)
 
 src/icons.svg: ${ICONS}
