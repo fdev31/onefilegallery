@@ -219,8 +219,9 @@ body{background:[[BACKGROUND_COLOR]];margin:0;padding:0;font-family:'PT Sans',sa
         <script src="//cdn.jsdelivr.net/isotope/2.0.0/isotope.pkgd.min.js"></script>
         <script type="text/javascript">
 " use strict "
-var data={};var pass='';var page_size=25;var cur_image=0;var isotope=0;var popup_delay=3000;var _popups=[];var _cur_popup=0;var expertise_level=0;function display_popup(content,opts){var opts=opts||{};var flush=!!opts.flush;if(_cur_popup!=0&&!flush){if(_popups.length>0&&content!=_popups[_popups.length-1][0])
-_popups.push([content,opts])}else{var o=QS('#popup');o.innerHTML=content;o.classList.remove("slide-down");if(!!!opts.stay){_cur_popup=setTimeout(remove_popup,popup_delay);}
+var data={};var pass='';var page_size=25;var cur_image=0;var isotope=0;var popup_delay=3000;var _popups=[];var _cur_popup=0;var expertise_level=0;function display_popup(content,opts){var opts=opts||{};var flush=!!opts.flush;if(_cur_popup!=0&&!flush){if(_cur_popup&&!(_popups.length>0&&content!=_popups[_popups.length-1][0])){_popups.push([content,opts])}}else{if(flush)
+_popups=[];if(_cur_popup!=0)
+clearTimeout(_cur_popup);var o=QS('#popup');o.innerHTML=content;o.classList.remove("slide-down");if(!!!opts.stay){_cur_popup=setTimeout(remove_popup,popup_delay);}
 if(!!opts.onshow)
 opts.onshow();}}
 function remove_popup(){var o=QS('#popup');clearTimeout(_cur_popup);_cur_popup=0;if(_popups.length!=0){var content=_popups.pop();display_popup(content[0],content[1]);}else{o.classList.add('slide-down');}}

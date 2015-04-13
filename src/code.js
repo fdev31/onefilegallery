@@ -16,9 +16,14 @@ function display_popup (content, opts) {
     var flush = !! opts.flush;
 
     if (_cur_popup != 0 && !flush) {
-        if ( _popups.length > 0 && content != _popups[_popups.length-1][0] )
+        if ( _cur_popup && !(_popups.length > 0 && content != _popups[_popups.length-1][0]) ) {
             _popups.push([content, opts])
+        }
     } else {
+        if (flush)
+            _popups = [];
+        if( _cur_popup != 0)
+            clearTimeout(_cur_popup);
         var o = QS('#popup');
         o.innerHTML = content;
         o.classList.remove("slide-down");
@@ -37,7 +42,7 @@ function remove_popup() {
     if (_popups.length != 0) {
         var content = _popups.pop();
         display_popup( content[0], content[1] );
-    } else {
+    } else { // last popup
         o.classList.add('slide-down');
     }
 }
