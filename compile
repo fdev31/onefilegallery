@@ -10,7 +10,7 @@ MONO = '1ftn'
 import re
 icon_names = []
 _svg_content = []
-for i, svg in enumerate(f for f in os.listdir('src/icons/') if f.endswith('svg')):
+for i, svg in enumerate(sorted(f for f in os.listdir('src/icons/') if f.endswith('svg'))):
     icon_names.append(svg.rsplit('.', 1)[0])
     data = open(os.path.join('src/icons/', svg)).read()
     idx = data.index('<svg')
