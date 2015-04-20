@@ -379,6 +379,20 @@ function uncompress_resources(keys_values_array) {
     return ret;
 };
 
+function show_exif(img) {
+    EXIF.getData(img, function() {
+        var expo = EXIF.getTag(img, "ExposureTime");
+        if (expo !== undefined) {
+            if (expo < 0.5) {
+                expo = "1/" + (1/expo)
+            }
+            display_popup( "ISO " + EXIF.getTag(img, "ISOSpeedRatings") + "<br/>f=" + EXIF.getTag(img, "FocalLength") +"mm<br/>f/" + EXIF.getTag(img, "FNumber") + "<br/>" + expo + "s", {flush: true});
+        }
+        img.exifdata = undefined;
+        // WhiteBalance
+        // DateTimeOriginal
+    })
+}
 
 var default_configuration = {}
 
@@ -402,6 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
       _start_bootstrap(default_configuration.code);
   }
+
 
 //    display_popup('Welcome ! Click on an image to launch the viewer !');
 

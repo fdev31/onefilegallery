@@ -102,7 +102,16 @@ else:
 py_code = open(PY).read()
 py_code = py_code.replace('{{{HTML_FILE}}}', open('src/index.html').read())
 py_code = py_code.replace('{{{STYLE}}}', CSS)
-py_code = py_code.replace('{{{JS_CODE}}}', open('src/_code.js').read())
+_js_code = open('src/exif-js.js').read() + '\n' + open('src/_code.js').read()
+
+try:
+    import rjsmin
+except ImportError:
+    pass
+else:
+    _js_code = rjsmin.jsmin(_js_code)
+
+py_code = py_code.replace('{{{JS_CODE}}}', _js_code)
 #end svg gen, write it
 py_code = py_code.replace('{{{SVG_FILE}}}', codecs.encode(open('src/icons.svg').read().encode('utf-8'), 'base64').decode().replace('\n', ''))
 open(MONO, 'w').write(py_code)

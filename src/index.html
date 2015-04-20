@@ -13,7 +13,6 @@
         <script src="//cdn.jsdelivr.net/isotope/2.0.0/isotope.pkgd.min.js"></script>
         <script type="text/javascript">
 {{{JS_CODE}}}
-
         </script>
     </head>
     <body>
@@ -32,7 +31,8 @@
                 <br />
                 <div id="next_button" title="Show next image" onclick="next_image(true)" class="pull-right bigfont icon_right"></div>
                 <div id="prev_button" title="Show previous image" onclick="prev_image(true)" class="bigfont icon_left"></div>
-                <img title="Use Arrow keys to change current image" id="projected" class="loading" />
+                <img title="Use Arrow keys to change current image" id="projected" class="loading" onclick="show_exif(this)" />
+
                 <img class="cache" id="next_projected" />
                 <img class="cache" id="prev_projected" />
             </div>
