@@ -77,6 +77,10 @@ var CE = function(tag) {
     return document.createElement(tag);
 }
 
+var randomize = function() {
+    x = document.querySelectorAll('.item')
+    for (var i in x) { console.log(x[i]) ; x[i].style['transform'] = 'rotateZ(' + (3 - 6*Math.random()) + 'deg)' };
+}
 var switch_page = function(nr) {
     isotope.arrange({ filter: '.p'+nr });
     DCA('button', 'current');
@@ -281,14 +285,15 @@ function start_process() {
                 isotope.insert(e);
                 if ( data.length > page_size )
                     QS('button').classList.add('current');
-            }, 100);
-            // ugly workaround of the death
-            for (n=1;n<5;n++) {
-                setTimeout( function() {
-                    isotope.arrange();
-                }, n*2*100);
-            }
 
+                // ugly workaround of the death
+                for (n=1;n<5;n++) {
+                    setTimeout( function() {
+                        isotope.arrange();
+                    }, n*2*100);
+                }
+                }, 100);
+                setTimeout(randomize, 1001);
             QS('#dl_ref').style.visibility = "visible";
         } else if(this.readyState == 4) {
             display_popup("<h1>Error loading images</h1>Perhaps the code is incorrect.", {'flush': true});
