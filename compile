@@ -11,7 +11,7 @@ import re
 icon_names = []
 _svg_content = []
 for i, svg in enumerate(sorted(f for f in os.listdir('src/icons/') if f.endswith('svg'))):
-    icon_names.append(svg.rsplit('.', 1)[0])
+    icon_names.append(svg.rsplit('.', 1)[0].split('_', 1)[1])
     data = open(os.path.join('src/icons/', svg)).read()
     idx = data.index('<svg')
     data = data[idx:]
