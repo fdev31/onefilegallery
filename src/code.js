@@ -78,8 +78,10 @@ var CE = function(tag) {
 }
 
 var randomize = function() {
-    x = document.querySelectorAll('.item')
-    for (var i in x) { console.log(x[i]) ; x[i].style['transform'] = 'rotateZ(' + (3 - 6*Math.random()) + 'deg)' };
+    var x = document.querySelectorAll('div.item')
+    for (var i=0; i<x.length; i++) {
+        x[i].style['transform'] = 'rotateZ(' + (3 - 6*Math.random()) + 'deg)'
+    };
 }
 var switch_page = function(nr) {
     isotope.arrange({ filter: '.p'+nr });
@@ -231,6 +233,18 @@ var close_projector = function() {
     if(slideshow_id) slideshow_button();
 }
 
+var expected_loads = null;
+
+function notify_loaded(img) {
+    if (expected_loads-- <= 1) {
+        console.log('arrange');
+        isotope.arrange();
+        setTimeout(randomize, 501);
+    } else {
+        console.log('no-op');
+    }
+}
+
 function start_process() {
     var container = QS('#container');
     isotope = new Isotope( container, {itemSelector: '.item',   isFitWidth: true, filter:'.p0'});
@@ -282,18 +296,20 @@ function start_process() {
             setTimeout( function() {
                 var e = CE('div');
                 e.innerHTML = html.join('');
+                var images = e.querySelectorAll('div.item.p0 > img');
+                expected_loads = images.length;
+                for (var i=0 ; i<images.length; i++) {
+                    if (images[i].complete) {
+                        notify_loaded(images[i]);
+                    } else {
+                        images[i].onload = notify_loaded;
+                    }
+                }
                 isotope.insert(e);
+
                 if ( data.length > page_size )
                     QS('button').classList.add('current');
-
-                // ugly workaround of the death
-                for (n=1;n<5;n++) {
-                    setTimeout( function() {
-                        isotope.arrange();
-                    }, n*2*100);
-                }
                 }, 100);
-                setTimeout(randomize, 1001);
             QS('#dl_ref').style.visibility = "visible";
         } else if(this.readyState == 4) {
             display_popup("<h1>Error loading images</h1>Perhaps the code is incorrect.", {'flush': true});

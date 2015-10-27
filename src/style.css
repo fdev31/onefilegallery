@@ -7,6 +7,10 @@ body {
 #global_container {
     padding: 1ex;
 }
+div.item {
+    transition-duration: 300ms;
+    transition-property: transform;
+}
 img {
     border: none;
     margin: 1ex;
