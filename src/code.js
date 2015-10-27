@@ -90,17 +90,19 @@ var switch_page = function(nr) {
 }
 
 var _set_left_image = function(url) {
+    _image_setters.prev = 0;
     setTimeout( function() {
         QS('#prev_projected').src = url;
     }, 550);
 }
 var _set_right_image = function(url) {
+    _image_setters.next = 0;
     setTimeout( function() {
         QS('#next_projected').src = url;
     }, 500);
 }
 var _set_image = function() {
-    _image_setter = 0;
+    _image_setters.cur = 0;
     QS('#projected').src = pass + '/' + data[cur_image].f;
     var txt = data[cur_image].f.replace(/.*[/]/, '');
     txt += ' ('+(1+cur_image)+'/'+data.length+')';
@@ -154,7 +156,11 @@ var slideshow_button = function() {
     }
 }
 
-var _image_setter = 0;
+var _image_setters = {
+    'cur': 0,
+    'prev': 0,
+    'next': 0
+}
 
 /* only called when a click on the thumbnail image occurs */
 var view_image = function(obj, counter) {
@@ -168,10 +174,16 @@ var view_image = function(obj, counter) {
         DC('#projector', 'slide-down');
         QS('#projected').src = pass + '/' + data[cur_image].t;
     }
-    if (!!_image_setter) {
-        clearTimeout(_image_setter )
+    if (!!_image_setters.cur) {
+        clearTimeout(_image_setters.cur )
+        clearTimeout(_image_setters.prev )
+        clearTimeout(_image_setters.next )
     }
-    _image_setter = setTimeout( _set_image, 250);
+    _image_setters.cur = setTimeout( _set_image, 250);
+    if (counter+1 < data.length)
+        _image_setters.next = setTimeout( function() { _set_right_image(pass + '/' + data[counter+1].f) }, 251 );
+    if (counter-1 > 0)
+        _image_setters.next = setTimeout( function() { _set_left_image(pass + '/' + data[counter-1].f) }, 252 );
 }
 
 var next_image = function(user_action) {
