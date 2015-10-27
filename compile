@@ -94,6 +94,8 @@ CSS = open('src/style.css').read()+('\n'.join(CSS_DEF))
 
 try:
     import rcssmin
+    if 'DEBUG' in os.environ:
+        raise ImportError
 except ImportError:
     pass
 else:
@@ -105,6 +107,8 @@ py_code = py_code.replace('{{{STYLE}}}', CSS)
 _js_code = open('src/exif-js.js').read() + '\n' + open('src/_code.js').read()
 
 try:
+    if 'DEBUG' in os.environ:
+        raise ImportError
     import rjsmin
 except ImportError:
     pass
