@@ -59,7 +59,8 @@ input#delay {
     border-radius: 3px;
     float: left;
     font-size: 150%;
-    background-color: white;
+    background-color: #999;
+    color: #eee;
     padding: 0.4ex 0px 0px;
     text-align: center;
     border: medium none;
