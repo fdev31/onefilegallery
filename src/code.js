@@ -237,11 +237,8 @@ var expected_loads = null;
 
 function notify_loaded(img) {
     if (expected_loads-- <= 1) {
-        console.log('arrange');
         isotope.arrange();
         setTimeout(randomize, 501);
-    } else {
-        console.log('no-op');
     }
 }
 
