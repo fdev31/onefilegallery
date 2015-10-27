@@ -1,10 +1,10 @@
 .PHONY: all reskin clean
 
-jsmin=python -m rjsmin < $1 > $2
+# jsmin=python -m rjsmin < $1 > $2
 # csslint=csslint-0.6 $1 > $2
 
 # uncomment to ease debug:
-# jsmin=cat < $1 > $2
+jsmin=cat < $1 > $2
 
 ICONS=$(wildcard src/icons/icon_*.svg)
 
