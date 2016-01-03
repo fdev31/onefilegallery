@@ -277,7 +277,7 @@ EXIF.pretty=function(img){if(!imageHasData(img))return"";var a,data=img.exifdata
 return strPretty;}
 EXIF.readFromBinaryFile=function(file){return findEXIFinJPEG(file);}
 if(typeof define==='function'&&define.amd){define('exif-js',[],function(){return EXIF;});}}.call(this));" use strict "
-var INFINISCROLL=true;var data={};var pass='';var page_size=25;var cur_image=0;var isotope=0;var popup_delay=3000;var _popups=[];var _cur_popup=0;var expertise_level=0;function display_popup(content,opts){var opts=opts||{};var flush=!!opts.flush;if(_cur_popup!=0&&!flush){if(_cur_popup&&!(_popups.length>0&&content!=_popups[_popups.length-1][0])){_popups.push([content,opts])}}else{if(flush)
+var INFINISCROLL={{{INFINISCROLL}}};var data={};var pass='';var page_size={{{PAGE_SIZE}}};var cur_image=0;var isotope=0;var popup_delay=3000;var _popups=[];var _cur_popup=0;var expertise_level=0;function display_popup(content,opts){var opts=opts||{};var flush=!!opts.flush;if(_cur_popup!=0&&!flush){if(_cur_popup&&!(_popups.length>0&&content!=_popups[_popups.length-1][0])){_popups.push([content,opts])}}else{if(flush)
 _popups=[];if(_cur_popup!=0)
 clearTimeout(_cur_popup);var o=QS('#popup');o.innerHTML=content;o.classList.remove("slide-down");if(!!!opts.stay){_cur_popup=setTimeout(remove_popup,popup_delay);}
 if(!!opts.onshow)
@@ -373,10 +373,14 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--resize', metavar='SIZE', action='store', help='resize original images when copying (give a maximum width or height in pixels, i.e: "1280") -- Implies "-c"', default=False)
     parser.add_argument('-t', '--thumb-size', metavar='SIZE', action='store', help='size of the generated thumbnails (give a maximum width or height in pixels, i.e: "200")', default=False)
     parser.add_argument('-q', '--quality', metavar='QUALITY', action='store', type=int, help='Output image quality in range [0-100]', default=90)
+    parser.add_argument('-i', '--infiniscroll', action='store_true', help='Enable infiniscroll (single page)', default=False)
+    parser.add_argument('-p', '--page-size', action='store', help='Number of thumbnail per page', default=25)
     args = parser.parse_args()
 
     if args.resize and not args.copy:
         args.copy = True
+
+    INDEX = INDEX.replace('{{{INFINISCROLL}}}', str(args.infiniscroll).lower()).replace('{{{PAGE_SIZE}}}', str(args.page_size))
 
     print("Listing...")
     images  = ImageList(args.input, overwrite=args.overwrite)

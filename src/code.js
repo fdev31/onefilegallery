@@ -1,10 +1,10 @@
 " use strict "
 
-var INFINISCROLL = true;
+var INFINISCROLL = {{{INFINISCROLL}}};
 
 var data = {};
 var pass = '';
-var page_size = 25;
+var page_size = {{{PAGE_SIZE}}};
 var cur_image = 0;
 var isotope = 0;
 var popup_delay = 3000; // 3s delay for popups
@@ -432,6 +432,7 @@ function show_exif(img) {
 var default_configuration = {}
 
 document.addEventListener('DOMContentLoaded', function() {
+
 
   /* set configuration from query string <URL>#key=value[,key2=value2,...]*/
   var options = document.location.href.match('.*#(.*)');

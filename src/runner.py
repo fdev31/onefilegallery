@@ -217,10 +217,14 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--resize', metavar='SIZE', action='store', help='resize original images when copying (give a maximum width or height in pixels, i.e: "1280") -- Implies "-c"', default=False)
     parser.add_argument('-t', '--thumb-size', metavar='SIZE', action='store', help='size of the generated thumbnails (give a maximum width or height in pixels, i.e: "200")', default=False)
     parser.add_argument('-q', '--quality', metavar='QUALITY', action='store', type=int, help='Output image quality in range [0-100]', default=90)
+    parser.add_argument('-i', '--infiniscroll', action='store_true', help='Enable infiniscroll (single page)', default=False)
+    parser.add_argument('-p', '--page-size', action='store', help='Number of thumbnail per page', default=25)
     args = parser.parse_args()
 
     if args.resize and not args.copy:
         args.copy = True
+
+    INDEX = INDEX.replace('{{{INFINISCROLL}}}', str(args.infiniscroll).lower()).replace('{{{PAGE_SIZE}}}', str(args.page_size))
 
     print("Listing...")
     images  = ImageList(args.input, overwrite=args.overwrite)
