@@ -1,5 +1,7 @@
 " use strict "
 
+var INFINISCROLL = true;
+
 var data = {};
 var pass = '';
 var page_size = 25;
@@ -256,8 +258,8 @@ function notify_loaded(img) {
 
 function start_process() {
     var container = QS('#container');
-    isotope = new Isotope( container, {itemSelector: '.item', isFitWidth: true, filter:'.p0'});
-    isotope.on('arrangeComplete', randomize);
+    isotope = new Isotope( container, {itemSelector: '.item', isFitWidth: true, filter: (INFINISCROLL?false:'.p0')});
+    isotope.on('layoutComplete', randomize);
 
     QS('#dl_ref').style.visibility = "hidden";
     QS('#dl_ref').setAttribute('href','./'+ pass+'/package.zip');
@@ -265,6 +267,9 @@ function start_process() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', './'+pass+'/images.js', true);
     xhr.overrideMimeType('text/javascript; charset=utf-8');
+
+    if (INFINISCROLL)
+        QS('#pages').style.visibility = 'hidden';
 
     xhr.onreadystatechange = function(e) {
         if (this.readyState == 4 && this.status == 200) {
@@ -301,7 +306,6 @@ function start_process() {
                 html.push('<div title="'+d.f+size+'" class="item p'+Math.floor(counter/page_size)+'" ><img class="tn" onclick="view_image(this, '+counter+')" src="'+pass+'/'+d.t+'" ></img></div>');
                 counter++;
             };
-
 
             expected_loads = html.length;
             for (var i=0; i<html.length; i++) {

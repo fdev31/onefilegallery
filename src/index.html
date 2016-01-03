@@ -17,7 +17,7 @@
     </head>
     <body>
         <div id="global_container">
-            <span class="pull-right"><h1><a id="dl_ref" style="visibility:hidden;" title="Download all images" class="bg_caption" href=""><div class="icon_hdd" ></div></a>&nbsp;<a class="bg_caption" href="#" title="Change current code" onclick="change_code()"><div class="icon_cycle" ></div></a></h1></span>
+            <span class="pull-right"><h1><a id="dl_ref" style="visibility:hidden;" title="Download all images" class="bg_caption" href=""><div class="icon_hdd action_icon" ></div></a>&nbsp;<a class="bg_caption" href="#" title="Change current code" onclick="change_code()"><div class="icon_cycle action_icon" ></div></a></h1></span>
             <div id="pages"><span class="bg_caption"><span id="page_list" /></div>
             <hr />
             <div id="container">
@@ -25,12 +25,12 @@
             <div id="popup"  class="slide-down">
             </div>
             <div id="projector"  class="slide-down">
-                <div class="pull-right bigfont icon_cross" title="Close image viewer" onclick="close_projector()"></div>
-                <span class="pull-right"><form action="#" onclick="return false;"><input class="bigfont" title="Slideshow delay" type="text" id="delay" size="3" value="3.5"></input>&nbsp;<div id="slide_button" class="bigfont icon_play" title="Toggle slideshow mode" onclick="slideshow_button(); false;"></div></form></span>
+                <div class="pull-right bigfont icon_cross action_icon" title="Close image viewer" onclick="close_projector()"></div>
+                <span class="pull-right"><form action="#" onclick="return false;"><input class="bigfont" title="Slideshow delay" type="text" id="delay" size="3" value="3.5"></input>&nbsp;<div id="slide_button" class="bigfont icon_play action_icon" title="Toggle slideshow mode" onclick="slideshow_button(); false;"></div></form></span>
                 <h1 id="projected_name">IMG XXX</h1>
                 <br />
-                <div id="next_button" title="Show next image" onclick="next_image(true)" class="pull-right bigfont icon_right"></div>
-                <div id="prev_button" title="Show previous image" onclick="prev_image(true)" class="bigfont icon_left"></div>
+                <div id="next_button" title="Show next image" onclick="next_image(true)" class="pull-right bigfont icon_right action_icon"></div>
+                <div id="prev_button" title="Show previous image" onclick="prev_image(true)" class="bigfont icon_left action_icon"></div>
                 <img title="Use Arrow keys to change current image" id="projected" class="loading" onclick="show_exif(this)" />
 
                 <img class="cache" id="next_projected" />

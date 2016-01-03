@@ -12,16 +12,18 @@ body {
     padding: 1ex;
     transition: none;
 }
-div.item {
-}
 div.item:hover {
   z-index: 3;
+}
+div.action_icon {
+    cursor: pointer;
 }
 img {
     border: none;
     margin: 1ex;
     border: [[TN_BORDER]];
     border-radius: 3px;
+    cursor: pointer;
 }
 img.tn:hover {
     border: [[HIGHLIGHT_TN_BORDER]];
@@ -99,6 +101,7 @@ button.busy {
     max-height: 90%;
     transition-property: opacity, transform;
     transition-duration: 1000ms;
+    cursor: help;
 }
 #popup {
     position: fixed;
