@@ -253,7 +253,14 @@ var expected_loads = null;
 
 function notify_loaded(img) {
     if (expected_loads-- <= 1) {
-        isotope.arrange(randomize);
+        isotope.arrange();
+        // watchdog
+        setTimeout( function() {
+            if ( QSA('div.item')[2].style.left == "0px" ) {
+                isotope.arrange()
+            }
+        }, 1);
+            
     }
 }
 
