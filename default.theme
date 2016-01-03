@@ -1,8 +1,8 @@
 # Change colors here:
 
-BACKGROUND_COLOR: #334
-HIGHLIGHT_TN_BORDER: solid 3px #fcc
-TN_BORDER: solid 3px #CCC
+BACKGROUND_COLOR: #CCC
+HIGHLIGHT_TN_BORDER: solid 12px #FFF
+TN_BORDER: solid 3px #FFF
 
 # Page buttons
 

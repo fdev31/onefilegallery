@@ -81,8 +81,9 @@ var CE = function(tag) {
 
 var randomize = function() {
     var x = document.querySelectorAll('div.item')
+        var d = 16;
     for (var i=0; i<x.length; i++) {
-        x[i].style['transform'] = 'rotateZ(' + (3 - 6*Math.random()) + 'deg)'
+        x[i].style['transform'] = 'rotateZ(' + (d/2 - d*Math.random()) + 'deg)'
     };
 }
 
