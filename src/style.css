@@ -4,12 +4,15 @@ body {
     padding: 0;
     font-family: 'PT Sans', sans-serif;
 }
+#container {
+    transition: none;
+    zoom: 1;
+}
 #global_container {
     padding: 1ex;
+    transition: none;
 }
 div.item {
-    transition-duration: 300ms;
-    transition-property: transform;
 }
 div.item:hover {
   z-index: 3;
@@ -22,8 +25,9 @@ img {
 }
 img.tn:hover {
     border: [[HIGHLIGHT_TN_BORDER]];
-    transform: scale(1.2);
+    transform: scale(1.1);
     transition-duration: 300ms;
+    transition-timing-function: ease;
 }
 a {
     font-weight: bold;

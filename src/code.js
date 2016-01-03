@@ -49,7 +49,7 @@ function remove_popup() {
 
 var DC = function(query, klass) {
     var q = document.querySelector(query);
-    if (q) 
+    if (q)
         q.classList.remove(klass);
 };
 var DCA = function(query, klass) {
@@ -83,6 +83,7 @@ var randomize = function() {
         x[i].style['transform'] = 'rotateZ(' + (3 - 6*Math.random()) + 'deg)'
     };
 }
+
 var switch_page = function(nr) {
     isotope.arrange({ filter: '.p'+nr });
     DCA('button', 'current');
@@ -249,14 +250,14 @@ var expected_loads = null;
 
 function notify_loaded(img) {
     if (expected_loads-- <= 1) {
-        isotope.arrange();
-        setTimeout(randomize, 501);
+        isotope.arrange(randomize);
     }
 }
 
 function start_process() {
     var container = QS('#container');
-    isotope = new Isotope( container, {itemSelector: '.item',   isFitWidth: true, filter:'.p0'});
+    isotope = new Isotope( container, {itemSelector: '.item', isFitWidth: true, filter:'.p0'});
+    isotope.on('arrangeComplete', randomize);
 
     QS('#dl_ref').style.visibility = "hidden";
     QS('#dl_ref').setAttribute('href','./'+ pass+'/package.zip');
@@ -302,37 +303,37 @@ function start_process() {
             };
 
 
-            setTimeout( function() {
-                var e = CE('div');
-                e.innerHTML = html.join('');
-                var images = e.querySelectorAll('div.item.p0 > img');
-                expected_loads = images.length;
-                for (var i=0 ; i<images.length; i++) {
-                    if (images[i].complete) {
-                        notify_loaded(images[i]);
-                    } else {
-                        images[i].onload = notify_loaded;
-                    }
+            expected_loads = html.length;
+            for (var i=0; i<html.length; i++) {
+                var d = CE('div');
+                d.innerHTML = html[i];
+                var image = d.querySelector('div.item > img');
+                if (image.complete) {
+                    notify_loaded(image);
+                } else {
+                    image.onload = notify_loaded;
                 }
-                isotope.insert(e);
+                isotope.element.appendChild(d.children[0]);
+            }
+            isotope.appended(document.querySelectorAll('div.item'));
 
-                if ( data.length > page_size )
-                    QS('button').classList.add('current');
-                }, 100);
+            if ( data.length > page_size )
+                QS('button').classList.add('current');
+
             QS('#dl_ref').style.visibility = "visible";
         } else if(this.readyState == 4) {
             display_popup("<h1>Error loading images</h1>Perhaps the code is incorrect.", {'flush': true});
             QS('#dl_ref').style.visibility = "hidden";
             change_code();
         }
-    };
+      };
 
-    xhr.send(null);
+      xhr.send(null);
 
-    QS('#projected').onload = function(e) {
-        DC('button.busy', 'busy');
-        DC('#projected', 'loading');
-        if(!!slideshow_id) {
+      QS('#projected').onload = function(e) {
+          DC('button.busy', 'busy');
+          DC('#projected', 'loading');
+          if(!!slideshow_id) {
             _start_show();
         }
     };
@@ -432,23 +433,22 @@ document.addEventListener('DOMContentLoaded', function() {
   var options = document.location.href.match('.*#(.*)');
 
   if(!!options) {
-      options = options[1].split(/ *,/);
-      var tmp=null;
-      for(var i=0; i<options.length; i++) {
-          tmp = options[i].split(/=/);
-          default_configuration[tmp[0]] = tmp[1]
-      }
+    options = options[1].split(/ *,/);
+    var tmp=null;
+    for(var i=0; i<options.length; i++) {
+      tmp = options[i].split(/=/);
+      default_configuration[tmp[0]] = tmp[1]
+    }
   }
   /* Start automatically or ask the user for a code */
   if(!!!default_configuration.code) {
-      display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true});
-      QS('#codepopup input').focus();
+    display_popup('<form action="#" onsubmit="_start_bootstrap(); return false;" id="codepopup" >Code: <input type="text" ></input></form>', {'stay': true});
+    QS('#codepopup input').focus();
   } else {
-      _start_bootstrap(default_configuration.code);
+    _start_bootstrap(default_configuration.code);
   }
 
 
 //    display_popup('Welcome ! Click on an image to launch the viewer !');
 
 });
-
