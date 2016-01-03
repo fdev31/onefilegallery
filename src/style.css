@@ -20,9 +20,6 @@ div.item:hover {
 div.action_icon {
     cursor: pointer;
 }
-div.action_icon:hover {
-    background-color: black;
-}
 img {
     border: none;
     margin: 1ex;
