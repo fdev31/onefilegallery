@@ -145,7 +145,7 @@ class ImageList:
     def __len__(self):
         return len(self.filenames)
 
-    def make_thumbs(self, out):
+    def make_thumbs(self, out, tn_size):
         tn_path = os.path.join(out.path, 'tn')
         img_mgr = ImageHandler()
         if not os.path.isdir(tn_path):
@@ -160,7 +160,7 @@ class ImageList:
             t_tn_path = os.path.join( tn_path, name )
             if self.overwrite or not os.path.exists(t_tn_path):
                 rot = img_mgr.get_rotation( fullpath )
-                src_img = img_mgr.minify( fullpath )
+                src_img = img_mgr.minify( fullpath, tn_size)
                 src_img = img_mgr.rotate( src_img, rot)
                 img_mgr.save(src_img, t_tn_path, quality=60 )
         print('\r' + progress_maker(len(self.filenames), len(self.filenames)), end='')
@@ -215,6 +215,7 @@ if __name__ == "__main__":
     parser.add_argument('-f', '--overwrite', action='store_true', help='overwrite files', default=False)
     parser.add_argument('-c', '--copy', action='store_true', help='copy original images', default=False)
     parser.add_argument('-s', '--resize', metavar='SIZE', action='store', help='resize original images when copying (give a maximum width or height in pixels, i.e: "1280") -- Implies "-c"', default=False)
+    parser.add_argument('-t', '--thumb-size', metavar='SIZE', action='store', help='size of the generated thumbnails (give a maximum width or height in pixels, i.e: "200")', default=False)
     parser.add_argument('-q', '--quality', metavar='QUALITY', action='store', type=int, help='Output image quality in range [0-100]', default=90)
     args = parser.parse_args()
 
@@ -255,7 +256,7 @@ if __name__ == "__main__":
 
 
     print("\nMaking thumbnails...")
-    images.make_thumbs(out) # TODO: re-use scaled+rotated images instead of originals
+    images.make_thumbs(out,args.thumb_size and int(args.thumb_size)) # TODO: re-use scaled+rotated images instead of originals
 
     zfname = os.path.join(out.path, 'package.zip')
 
