@@ -11,6 +11,9 @@ div.item {
     transition-duration: 300ms;
     transition-property: transform;
 }
+div.item:hover {
+  z-index: 3;
+}
 img {
     border: none;
     margin: 1ex;
@@ -20,7 +23,6 @@ img {
 img.tn:hover {
     border: [[HIGHLIGHT_TN_BORDER]];
     transform: scale(1.2);
-    z-index: 3;
     transition-duration: 300ms;
 }
 a {
@@ -137,4 +139,3 @@ button.busy {
     opacity: 0.0;
 }
 /* SVG sprite , used pyconizer for the svg */
-
