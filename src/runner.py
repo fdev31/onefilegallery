@@ -33,6 +33,7 @@ class BaseImageHandler:
     MAX_SZ = 200 # pixels
 
     _rot_map = {
+            3: 180,
             6: 270,
             8: 90,
             1: 0,
@@ -51,6 +52,7 @@ class BaseImageHandler:
 class JpegTranHandler(BaseImageHandler):
 
     _rot_map = {
+            3: 180,
             6: 270,
             8: -90,
             1: 0,
