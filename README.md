@@ -4,6 +4,8 @@
 * Get [the file](./1ftn) (or [here](https://raw.githubusercontent.com/fdev31/onefilegallery/master/1ftn))
 * Execute the file ! (`python 1ftn` or `chmod +x 1ftn` and then you can use `1ftn` directly)
 
+**With default options, the PARENT folder of the one passed as argument is assumed to be the root folder, where the index.html file is created**
+
 ## Features
 
 - Generate simple & beautiful but **static** image galleries (no PHP, no CGI, ...)
@@ -30,6 +32,7 @@
 ### Also using
 
 - Isotope (without jQuery)
+- ffmpegthumbnailer (from commandline, if you have .mp4 videos in the input folder)
 
 ## Usage
 
