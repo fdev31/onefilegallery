@@ -116,10 +116,10 @@ var _set_image = function() {
         QS('#projected').style.display = "block";
         QS('#projected_video').style.display = "none";
         QS('#projected').src = pass + '/' + fname;
-        var txt = data[cur_image].f.replace(/.*[/]/, '');
-        txt += ' ('+(1+cur_image)+'/'+data.length+')';
-        QS('#projected_name').textContent = txt;
     }
+    var txt = data[cur_image].f.replace(/.*[/]/, '');
+    txt += ' ('+(1+cur_image)+'/'+data.length+')';
+    QS('#projected_name').textContent = txt;
 }
 
 var slideshow_id = false;
