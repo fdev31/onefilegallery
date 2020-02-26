@@ -5,6 +5,7 @@ import sys
 import subprocess
 
 TMP='/tmp/'
+ABORT_ON_ERROR=True
 
 class FatalError(SystemExit): pass
 
@@ -161,14 +162,19 @@ class ImageList:
             print('\r' + progress_maker(i, len(self.filenames)), end='')
             name = os.path.basename(fullpath)
             t_tn_path = os.path.join( tn_path, name )
-            if self.overwrite or not os.path.exists(t_tn_path):
-                if fullpath.endswith('.mp4'):
-                    subprocess.Popen(['ffmpegthumbnailer', '-i', fullpath, '-o', t_tn_path, '-s', str(tn_size or img_mgr.MAX_SZ)]).communicate()
-                else:
-                    rot = img_mgr.get_rotation( fullpath )
-                    src_img = img_mgr.minify( fullpath, tn_size)
-                    src_img = img_mgr.rotate( src_img, rot)
-                    img_mgr.save(src_img, t_tn_path, quality=60 )
+            try:
+                if self.overwrite or not os.path.exists(t_tn_path):
+                    if fullpath.endswith('.mp4'):
+                        subprocess.Popen(['ffmpegthumbnailer', '-i', fullpath, '-o', t_tn_path, '-s', str(tn_size or img_mgr.MAX_SZ)]).communicate()
+                    else:
+                        rot = img_mgr.get_rotation( fullpath )
+                        src_img = img_mgr.minify( fullpath, tn_size)
+                        src_img = img_mgr.rotate( src_img, rot)
+                        img_mgr.save(src_img, t_tn_path, quality=60 )
+            except Exception as e:
+                print("Failed to process %s: %s"%(fullpath, e))
+                if ABORT_ON_ERROR:
+                    raise
         print('\r' + progress_maker(len(self.filenames), len(self.filenames)), end='')
 
 class Output:
