@@ -2,6 +2,7 @@
 from __future__ import print_function
 import os
 import sys
+import subprocess
 
 TMP='/tmp/'
 
@@ -122,13 +123,15 @@ except:
     from PIL import Image
     ImageHandler = PILHandler
 
+SUPPORTED_FILES = set(('jpg', 'jpeg', 'mp4'))
+
 class ImageList:
 
     filenames = []
     infos = []
 
     def __init__(self, path, overwrite=False):
-        files = [fname for fname in os.listdir(path) if fname.rsplit('.')[-1].lower() in ('jpg', 'jpeg')]
+        files = [fname for fname in os.listdir(path) if fname.rsplit('.')[-1].lower() in SUPPORTED_FILES]
         files.sort()
         filenames = []
         infos = []
@@ -159,10 +162,13 @@ class ImageList:
             name = os.path.basename(fullpath)
             t_tn_path = os.path.join( tn_path, name )
             if self.overwrite or not os.path.exists(t_tn_path):
-                rot = img_mgr.get_rotation( fullpath )
-                src_img = img_mgr.minify( fullpath, tn_size)
-                src_img = img_mgr.rotate( src_img, rot)
-                img_mgr.save(src_img, t_tn_path, quality=60 )
+                if fullpath.endswith('.mp4'):
+                    subprocess.Popen(['ffmpegthumbnailer', '-i', fullpath, '-o', t_tn_path, '-s', str(tn_size or img_mgr.MAX_SZ)]).communicate()
+                else:
+                    rot = img_mgr.get_rotation( fullpath )
+                    src_img = img_mgr.minify( fullpath, tn_size)
+                    src_img = img_mgr.rotate( src_img, rot)
+                    img_mgr.save(src_img, t_tn_path, quality=60 )
         print('\r' + progress_maker(len(self.filenames), len(self.filenames)), end='')
 
 class Output:
@@ -225,6 +231,7 @@ if __name__ == "__main__":
         args.copy = True
 
     INDEX = INDEX.replace('{{{INFINISCROLL}}}', str(args.infiniscroll).lower()).replace('{{{PAGE_SIZE}}}', str(args.page_size))
+
 
     print("Listing...")
     images  = ImageList(args.input, overwrite=args.overwrite)

@@ -102,6 +102,14 @@ button.busy {
     transition-duration: 230ms;
     transition-timing-function: ease-in;
 }
+#projected_video {
+    margin: auto auto 0 auto;
+    width: 90%;
+    min-width: 10px;
+    min-height: 10px;
+    max-width: 90%;
+    max-height: 90%;
+}
 #projected {
     display: block;
     position: relative;

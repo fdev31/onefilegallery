@@ -15,6 +15,7 @@
 - No installation required, copy the **single file** on your disk and run
 - Optionally resizes your images (e.g. scale down you digital camera pictures)
 - Small ! (<50k uncompressed, ~15k GZipped)
+- mp4 support if you install ffmpegthumbnailer
 
 ## TODO
 

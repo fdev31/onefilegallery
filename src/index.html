@@ -1,16 +1,15 @@
-
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
     <head>
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
-
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1">
         <title>Gallery</title>
         <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
         <style>
 {{{STYLE}}}
         </style>
-        <script src="//cdn.jsdelivr.net/isotope/2.2.2/isotope.pkgd.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
         <script type="text/javascript">
 {{{JS_CODE}}}
         </script>
@@ -31,8 +30,12 @@
                 <br />
                 <div id="next_button" title="Show next image" onclick="next_image(true)" class="pull-right bigfont icon_right action_icon"></div>
                 <div id="prev_button" title="Show previous image" onclick="prev_image(true)" class="bigfont icon_left action_icon"></div>
+                <video id="projected_video" width="auto" height="auto" controls>
+                    <source src="movie.mp4" type="video/mp4">
+                    <source src="movie.ogg" type="video/ogg">
+                    Your browser does not support the video tag.
+                </video>
                 <img title="Use Arrow keys to change current image" id="projected" class="loading" onclick="show_exif(this)" />
-
                 <img class="cache" id="next_projected" />
                 <img class="cache" id="prev_projected" />
             </div>
